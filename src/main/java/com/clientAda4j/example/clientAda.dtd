@@ -1,0 +1,20 @@
+<!DOCTYPE external [
+        <!ELEMENT external (externalId,name,url,healthCheck,useAliasAsRequest,headers,interfaces*)>
+        <!ELEMENT externalId (#PCDATA)>
+        <!ELEMENT name (#PCDATA)>
+        <!ELEMENT url (#PCDATA)>
+        <!ELEMENT healthCheck (#PCDATA )>
+        <!ELEMENT useAliasAsRequest (#PCDATA)>
+        <!ELEMENT headers (appId|appsecret|charset)>
+        <!ELEMENT appId (#PCDATA )>
+        <!ELEMENT appsecret (#PCDATA )>
+        <!ELEMENT charset (#PCDATA )>
+        <!ELEMENT interfaces (interface*)>
+        <!ELEMENT interface (serviceCode|serviceName|serviceCd|desc)>
+        <!ELEMENT serviceCode (#PCDATA )>
+        <!ELEMENT serviceName (#PCDATA )>
+        <!ELEMENT serviceCd (#PCDATA )>
+        <!ELEMENT desc (#PCDATA)>
+        <!ATTLIST interface serviceCode CDATA #REQUIRED>
+        <!ATTLIST interface serviceName CDATA #REQUIRED>
+        ]>
