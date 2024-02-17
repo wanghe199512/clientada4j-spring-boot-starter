@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableMap;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public abstract class AbstractExternalInterfaceClientAda<T extends ExternalProp> implements IExternalInterface<T>, Serializable {
@@ -16,7 +17,7 @@ public abstract class AbstractExternalInterfaceClientAda<T extends ExternalProp>
      * @return ImmutableMap<String, Object>
      */
     protected ImmutableMap<String, Object> removeNull(Map<String, Object> domain) {
-        return ImmutableMap.copyOf(domain.entrySet().stream().filter((e) -> e.getValue() != null).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+        return Objects.isNull(domain) ? ImmutableMap.<String, Object>builder().build() : ImmutableMap.copyOf(domain.entrySet().stream().filter((e) -> e.getValue() != null).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
     }
 
 

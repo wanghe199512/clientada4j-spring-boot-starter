@@ -36,6 +36,13 @@ public class ExternalInterfacePropDomain {
     @XmlElement(name = "dynamic")
     private String dynamic = "";
 
+    public ExternalInterfacePropDomain() {
+    }
+
+    public ExternalInterfacePropDomain(String serviceCd, String code) {
+        this.code = code;
+        this.serviceCd = serviceCd;
+    }
 
     public String getCode() {
         return code;

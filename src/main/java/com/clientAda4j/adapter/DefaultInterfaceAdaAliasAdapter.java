@@ -3,7 +3,7 @@ package com.clientAda4j.adapter;
 import com.google.common.collect.ImmutableMap;
 
 /**
- * 构建默认的适配器
+ * 构建默认的别名映射适配器
  *
  * @author wanghe
  */

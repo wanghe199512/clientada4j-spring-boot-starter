@@ -8,6 +8,7 @@ import com.clientAda4j.adapter.InterfaceAdaAliasAdapter;
 import com.clientAda4j.domain.*;
 import com.google.common.collect.ImmutableMap;
 import org.apache.http.Header;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
@@ -67,7 +68,7 @@ public class DefaultInterfaceClientAda<T extends ExternalProp> extends AbstractE
     public ExternalResponseProp<ImmutableMap<String, Object>> request(String domainUrl, ImmutableMap<String, Object> params) {
         ExternalResponseProp<ImmutableMap<String, Object>> responseProp = new ExternalResponseProp<>();
         try {
-            ImmutableMap<String, Object> resultBean = BeanUtil.toBean(this.execute(this.createPost(domainUrl, new ExternalInterfacePropDomain()), params), ImmutableMap.class);
+            ImmutableMap<String, Object> resultBean = JSON.parseObject(this.execute(this.createPost(domainUrl, new ExternalInterfacePropDomain("/", "000000")), params), ImmutableMap.class);
             responseProp.setResponse(resultBean);
         } catch (Exception e) {
             e.printStackTrace();
@@ -164,9 +165,11 @@ public class DefaultInterfaceClientAda<T extends ExternalProp> extends AbstractE
             BasicHttpClientConnectionManager connManager = new BasicHttpClientConnectionManager(RegistryBuilder.<ConnectionSocketFactory>create().register("http", PlainConnectionSocketFactory.getSocketFactory())
                     .register("https", SSLConnectionSocketFactory.getSocketFactory()).build(), null, null, null);
             HttpClient httpClient = HttpClientBuilder.create().setConnectionManager(connManager).build();
-            httpPost.setEntity(new StringEntity(params.toString(), "UTF-8"));
+            httpPost.setEntity(new StringEntity(JSON.toJSONString(params), "UTF-8"));
             HttpResponse httpResponse = httpClient.execute(httpPost);
-            return EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
+            String responseString = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
+            logger.info(" [三方数据请求] 来自{}的原始响应 >>> {}", httpPost.getURI(), responseString);
+            return responseString;
         } catch (Exception e) {
             e.fillInStackTrace();
         }
