@@ -13,17 +13,17 @@ public class ExternalProp implements Serializable {
      * 接口ID
      */
     @XmlElement(name = "externalId")
-    protected String externalId;
+    private String externalId;
     /**
      * 名称
      */
     @XmlElement(name = "name")
-    protected String name;
+    private String name;
     /**
      * 地址
      */
     @XmlElement(name = "url")
-    protected String url;
+    private String url;
     /**
      * 运行检查
      */

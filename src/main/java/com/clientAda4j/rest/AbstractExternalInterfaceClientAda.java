@@ -8,16 +8,22 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * @param <T>
+ * @author 王贺
+ * @email 1280381827@qq.com
+ */
 public abstract class AbstractExternalInterfaceClientAda<T extends ExternalProp> implements IExternalInterface<T>, Serializable {
 
     /**
-     * 过滤ImmutableMap中值为空数据
+     * 过滤value为空的数据
      *
      * @param domain 要过滤的数据
      * @return ImmutableMap<String, Object>
      */
     protected ImmutableMap<String, Object> removeNull(Map<String, Object> domain) {
-        return Objects.isNull(domain) ? ImmutableMap.<String, Object>builder().build() : ImmutableMap.copyOf(domain.entrySet().stream().filter((e) -> e.getValue() != null).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+        return Objects.isNull(domain) ? ImmutableMap.<String, Object>builder().build()
+                : ImmutableMap.copyOf(domain.entrySet().stream().filter((e) -> e.getValue() != null).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
     }
 
 

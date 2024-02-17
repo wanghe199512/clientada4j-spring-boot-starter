@@ -111,9 +111,9 @@ public class DefaultInterfaceClientAda<T extends ExternalProp> extends AbstractE
     public ExternalResponseProp<DefaultExternalResponseProp> request(T prop, String serviceCd, ImmutableMap<String, Object> params) {
         ExternalResponseProp<DefaultExternalResponseProp> responseProp = new ExternalResponseProp<>();
         try {
-            DefaultExternalResponseProp responseBean = JSON.parseObject(
+            DefaultExternalResponseProp resultBean = JSON.parseObject(
                     this.request(prop, serviceCd, this.removeNull(BeanUtil.beanToMap(prop.getHeader())), params), DefaultExternalResponseProp.class);
-            responseProp.setResponse(responseBean);
+            responseProp.setResponse(resultBean);
         } catch (Exception e) {
             e.printStackTrace();
         }
