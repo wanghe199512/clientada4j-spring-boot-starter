@@ -13,6 +13,17 @@ spring.clientada.enabled = true # 开启或关闭
 spring.clientada.scanProperties #扫描配置文件(默认扫描resources/clientAda目录下所有文件)
 spring.clientada.mapCls  # 配置与实体关系映射
 ```
+#### 基本使用
+```
+@Autoware
+private DefaultInterfaceClientAda clientAda;
+
+public void test(){
+    clientAda.request();
+}
+
+不同构造器的使用参照源码文档说明
+```
 
 #### 初版1.0文档待完善
 
