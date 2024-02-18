@@ -87,6 +87,11 @@ public class CoustomInterfaceAdaAliasAdapter implements InterfaceAdaAliasAdapter
 
 #####说明: 不同构造器的使用参照源码文档说明
 
+
+#####联系作者
+
+有发送问题请发送至邮箱：1280381827@qq.com
+
 --------------------
 文档待完善
 
