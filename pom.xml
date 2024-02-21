@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.clientAda4j</groupId>
-    <artifactId>spring-boot-starter-clientada4j</artifactId>
+    <artifactId>clientada4j-spring-boot-starter</artifactId>
     <version>1.0.0-RELEASE</version>
     <packaging>jar</packaging>
 
-    <name>spring-boot-starter-clientada4j</name>
+    <name>clientada4j-spring-boot-starter</name>
     <description>三方客户端请求接口请求配置工具</description>
 
     <parent>
