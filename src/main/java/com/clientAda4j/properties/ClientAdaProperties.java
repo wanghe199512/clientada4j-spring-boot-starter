@@ -10,7 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author wanghe
  * @email 1280381827@qq.com
  */
-@ConfigurationProperties("spring.clientada")
+@ConfigurationProperties("clientada4j")
 public class ClientAdaProperties {
     /**
      * 开启或关闭

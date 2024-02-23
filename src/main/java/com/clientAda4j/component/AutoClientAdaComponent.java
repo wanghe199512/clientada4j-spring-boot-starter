@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
  * @email 1280381827@qq.com
  */
 @Configuration
-@ConditionalOnProperty(prefix = "spring.clientada", name = "enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "clientada4j", name = "enabled", havingValue = "true")
 public class AutoClientAdaComponent {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -8,9 +8,9 @@
 
 #### 开始使用
 ```
-spring.clientada.enabled = true # 开启或关闭
-spring.clientada.scanProperties #扫描配置文件(默认扫描resources/clientAda目录下所有文件)
-spring.clientada.mapCls  # 配置与实体关系映射
+clientada4j.enabled = true # 开启或关闭
+clientada4j.scanProperties #扫描配置文件(默认扫描resources/clientAda目录下所有文件)
+clientada4j.mapCls  # 配置与实体关系映射
 ```
 #### 基本使用
 

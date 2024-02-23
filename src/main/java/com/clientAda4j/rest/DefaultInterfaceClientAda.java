@@ -38,7 +38,7 @@ import java.util.Optional;
  * @author wanghe
  */
 @Component
-@ConditionalOnProperty(prefix = "spring.clientada", name = "enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "clientada4j", name = "enabled", havingValue = "true")
 public class DefaultInterfaceClientAda<T extends ExternalProp> extends AbstractExternalInterfaceClientAda<T> {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     /**
