@@ -1,7 +1,5 @@
 package com.clientAda4j.properties;
 
-import com.clientAda4j.domain.ExternalProp;
-import com.google.common.collect.ImmutableMap;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -21,11 +19,6 @@ public class ClientAdaProperties {
      */
     private String scanProperties = "classpath:/clientAda/*";
 
-    /**
-     * 文件与关系实体映射
-     */
-    private ImmutableMap<String, Class<? extends ExternalProp>> mapCls;
-
     public String getScanProperties() {
         return scanProperties;
     }
@@ -41,15 +34,6 @@ public class ClientAdaProperties {
 
     public ClientAdaProperties setEnabled(boolean enabled) {
         this.enabled = enabled;
-        return this;
-    }
-
-    public ImmutableMap<String, Class<? extends ExternalProp>> getMapCls() {
-        return mapCls;
-    }
-
-    public ClientAdaProperties setMapCls(ImmutableMap<String, Class<? extends ExternalProp>> mapCls) {
-        this.mapCls = mapCls;
         return this;
     }
 }

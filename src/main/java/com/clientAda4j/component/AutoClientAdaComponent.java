@@ -28,11 +28,10 @@ public class AutoClientAdaComponent {
     }
 
     @Bean
-    public DefaultExternalAccessAutowiredService<ExternalProp> defaultExternalAccessAutowiredService() {
+    public DefaultExternalAccessAutowiredService defaultExternalAccessAutowiredService() {
         logger.info("======================三方客户端请求接口配置开始加载==========================");
-        return new DefaultExternalAccessAutowiredService<ExternalProp>()
+        return new DefaultExternalAccessAutowiredService()
                 .setPropertiesPath(this.clientProperties.getScanProperties())
-                .mappingCls(this.clientProperties.getMapCls())
                 .addRequestMappingAliasAdapter(new DefaultInterfaceAdaAliasAdapter())
                 .build();
     }

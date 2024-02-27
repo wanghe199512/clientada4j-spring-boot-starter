@@ -6,7 +6,7 @@ import com.clientAda4j.domain.ExternalResponseProp;
 import com.google.common.collect.ImmutableMap;
 import org.apache.http.Header;
 
-public interface IExternalInterface<T extends ExternalProp> {
+public interface IExternalInterface {
     /**
      * 设置请求header
      *
@@ -14,7 +14,7 @@ public interface IExternalInterface<T extends ExternalProp> {
      * @param <H>    header
      * @return IExternalInterfaceAda<T>
      */
-    <H extends Header> IExternalInterface<T> addClientHeaders(H[] header);
+    <H extends Header> IExternalInterface addClientHeaders(H[] header);
 
     /**
      * 请求接口
@@ -42,7 +42,7 @@ public interface IExternalInterface<T extends ExternalProp> {
      * @param header    请求头
      * @param params    请求参数
      */
-    String request(T prop, String serviceCd, ImmutableMap<String, Object> header, ImmutableMap<String, Object> params);
+    String request(ExternalProp prop, String serviceCd, ImmutableMap<String, Object> header, ImmutableMap<String, Object> params);
 
     /**
      * 请求接口
@@ -51,6 +51,6 @@ public interface IExternalInterface<T extends ExternalProp> {
      * @param serviceCd 请求子服务code
      * @param params    请求参数
      */
-    ExternalResponseProp<DefaultExternalResponseProp> request(T prop, String serviceCd, ImmutableMap<String, Object> params);
+    ExternalResponseProp<DefaultExternalResponseProp> request(ExternalProp prop, String serviceCd, ImmutableMap<String, Object> params);
 
 }

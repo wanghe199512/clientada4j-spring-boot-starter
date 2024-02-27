@@ -9,11 +9,10 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * @param <T>
  * @author 王贺
  * @email 1280381827@qq.com
  */
-public abstract class AbstractExternalInterfaceClientAda<T extends ExternalProp> implements IExternalInterface<T>, Serializable {
+public abstract class AbstractExternalInterfaceClientAda implements IExternalInterface, Serializable {
 
     /**
      * 过滤value为空的数据
@@ -37,7 +36,7 @@ public abstract class AbstractExternalInterfaceClientAda<T extends ExternalProp>
      * @return String
      */
     @Override
-    public abstract String request(T prop, String serviceCd, ImmutableMap<String, Object> header, ImmutableMap<String, Object> params);
+    public abstract String request(ExternalProp prop, String serviceCd, ImmutableMap<String, Object> header, ImmutableMap<String, Object> params);
 
 
 }

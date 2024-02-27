@@ -1,12 +1,9 @@
 package com.clientAda4j.domain;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 
-@XmlRootElement(name = "external")
+@XmlRootElement(name = "namespace")
 @XmlAccessorType(value = XmlAccessType.FIELD)
 public class ExternalProp implements Serializable {
     /**
@@ -40,6 +37,14 @@ public class ExternalProp implements Serializable {
      */
     @XmlElement(name = "headers", type = ExternalHeaderProp.class)
     protected ExternalHeaderProp header;
+    /**
+     * 映射对象class
+     */
+    @XmlAttribute(name = "mappingCls", required = true)
+    private String mappingCls;
+
+    @XmlAttribute(name = "encoding")
+    private String encoding;
 
     /**
      * 访问接口数组
@@ -110,16 +115,44 @@ public class ExternalProp implements Serializable {
         return this;
     }
 
+    public String getMappingCls() {
+        return mappingCls;
+    }
+
+    public ExternalProp setMappingCls(String mappingCls) {
+        this.mappingCls = mappingCls;
+        return this;
+    }
+
+    public String getEncoding() {
+        return encoding;
+    }
+
+    public ExternalProp setEncoding(String encoding) {
+        this.encoding = encoding;
+        return this;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
     @Override
     public String toString() {
-        return "{" +
-                "服务ID='" + externalId + '\'' +
-                ", 服务名称='" + name + '\'' +
-                ", 服务Url='" + url + '\'' +
-                ", 服务检查=" + (healthCheck ? "是" : "否") +
-                ", 请求参数别名映射=" + (useAliasAsRequest ? "是" : "否") +
-                ", 服务请求头=" + header +
-                ", 服务接口列表=" + interfaceProps.getPropDomains() +
+        return "{映射实体类='" + mappingCls + '\'' +
+                "服务ID='" + externalId + '\'' + "\n" +
+                ", 服务名称='" + name + '\'' + "\n" +
+                ", 服务Url='" + url + '\'' + "\n" +
+                ", 服务检查=" + (healthCheck ? "是" : "否") + "\n" +
+                ", 请求参数别名映射=" + (useAliasAsRequest ? "是" : "否") + "\n" +
+                ", 服务请求头=" + header + "\n" +
+                ", 服务接口列表=" + interfaceProps.getPropDomains() + "\n" +
                 '}';
     }
 }

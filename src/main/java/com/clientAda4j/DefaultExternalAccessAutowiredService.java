@@ -1,17 +1,20 @@
 package com.clientAda4j;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.clientAda4j.domain.ExternalProp;
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
  * 默认的三方接口请求服务
- * @email 1280381827@qq.com
  *
  * @author 王贺
+ * @email 1280381827@qq.com
  */
-public class DefaultExternalAccessAutowiredService<T extends ExternalProp> extends AbstractExternalAccessAutowired<T> {
+public final class DefaultExternalAccessAutowiredService extends AbstractExternalAccessAutowired {
 
     /**
      * 获取所有配置
@@ -19,8 +22,8 @@ public class DefaultExternalAccessAutowiredService<T extends ExternalProp> exten
      * @return ImmutableList<DefaultExternalProp>
      */
     @Override
-    public ImmutableList<T> getInterfaceProp() {
-        return ImmutableList.copyOf(this.props);
+    public ImmutableMap<String, Object> getInterfaceProp() {
+        return ImmutableMap.copyOf(this.mappingProps);
     }
 
     /**
@@ -29,9 +32,9 @@ public class DefaultExternalAccessAutowiredService<T extends ExternalProp> exten
      * @return ImmutableList<DefaultExternalProp>
      */
     @Override
-    public T getInterfaceProp(String externalId) {
-        Optional<T> optional = this.props.stream().filter(i -> i.getExternalId().equals(externalId)).findFirst();
-        return optional.orElse(null);
+    public Map<String, Object> getInterfaceProp(String externalId) {
+        Optional<Map.Entry<String, HashMap<String, Object>>> optional = this.mappingProps.entrySet().stream().filter(item -> item.getValue().get("externalId").equals(externalId)).findFirst();
+        return optional.<Map<String, Object>>map(Map.Entry::getValue).orElse(null);
     }
 
     /**
@@ -40,8 +43,8 @@ public class DefaultExternalAccessAutowiredService<T extends ExternalProp> exten
      * @return ImmutableList<DefaultExternalProp>
      */
     @Override
-    public T getInterfaceProp(String externalId, Class<? extends ExternalProp> cls) {
-        return null;
+    public <T extends ExternalProp> T getInterfaceProp(String externalId, Class<T> cls) {
+        return BeanUtil.mapToBean(this.getInterfaceProp(externalId), cls, true);
     }
 
     /**
@@ -50,7 +53,7 @@ public class DefaultExternalAccessAutowiredService<T extends ExternalProp> exten
      * @return this
      */
     @Override
-    public DefaultExternalAccessAutowiredService<T> build() {
+    public DefaultExternalAccessAutowiredService build() {
         this.loaderFile();
         return this;
     }

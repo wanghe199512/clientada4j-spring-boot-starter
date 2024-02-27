@@ -1,9 +1,9 @@
 package com.clientAda4j;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.clientAda4j.adapter.DefaultInterfaceAdaAliasAdapter;
 import com.clientAda4j.adapter.InterfaceAdaAliasAdapter;
 import com.clientAda4j.domain.ExternalProp;
-import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,7 @@ import java.util.*;
  * @author wanghe
  * @email 1280381827@qq.com
  */
-public abstract class AbstractExternalAccessAutowired<T extends ExternalProp> implements IExternalAccessAutowired<T>, Serializable {
+public abstract class AbstractExternalAccessAutowired implements IExternalAccessAutowired, Serializable {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -34,13 +34,9 @@ public abstract class AbstractExternalAccessAutowired<T extends ExternalProp> im
      */
     protected String loadPropPath;
     /**
-     * 解析结果实体
-     */
-    protected final Set<T> props = new LinkedHashSet<>();
-    /**
      * 映射参数对象
      */
-    protected ImmutableMap<String, Class<? extends ExternalProp>> mapping = new ImmutableMap.Builder<String, Class<? extends ExternalProp>>().build();
+    protected Map<String, HashMap<String, Object>> mappingProps = new HashMap<String, HashMap<String, Object>>();
 
     /**
      * 请求参数适配器
@@ -62,17 +58,13 @@ public abstract class AbstractExternalAccessAutowired<T extends ExternalProp> im
                     if (!resource.getFile().getName().toLowerCase().endsWith(".xml")) {
                         continue;
                     }
-                    Class<? extends ExternalProp> cls = this.mapping.get(resource.getFilename());
-                    if (Objects.nonNull(cls)) {
-                        this.props.add(this.loaderClassPathFile(resource.getFile(), cls));
-                        continue;
-                    }
-                    this.props.add(this.loaderClassPathFile(resource.getFile(), ExternalProp.class));
+                    HashMap<String, Object> unmarshalProp = this.loaderClassPathFile(resource.getFile());
+                    this.mappingProps.put((String) unmarshalProp.get("mappingCls"), unmarshalProp);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            logger.info("配置文件读取完成 {}",  System.currentTimeMillis());
+            logger.info("配置文件读取完成 {}", System.currentTimeMillis());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -82,19 +74,16 @@ public abstract class AbstractExternalAccessAutowired<T extends ExternalProp> im
      * 加载类路径文件
      *
      * @param file 文件
-     * @param cls  隐射关系实体
      * @return E
      * @throws JAXBException JAXBException
      */
     @Override
-    public <E> E loaderClassPathFile(File file, Class<? extends ExternalProp> cls) throws JAXBException {
-        if (Objects.isNull(cls)) {
-            throw new RuntimeException("三方系统接入配置 >>> Class对象为空");
-        }
-        JAXBContext context = JAXBContext.newInstance(ExternalProp.class, cls);
+    public HashMap<String, Object> loaderClassPathFile(File file) throws JAXBException {
+        JAXBContext context = JAXBContext.newInstance(ExternalProp.class);
         Unmarshaller unmarshaller = context.createUnmarshaller();
-        logger.info("Preparing >> [类加载映射: {}] \n[映射参数: {}] ", cls.getName(), unmarshaller.unmarshal(file));
-        return (E) unmarshaller.unmarshal(file);
+        HashMap<String, Object> unmarshalProp = (HashMap<String, Object>) BeanUtil.beanToMap(unmarshaller.unmarshal(file), false, true);
+        logger.info("Preparing >> 类加载映射[{}]: \n[{}] ",unmarshalProp.get("mappingCls"), unmarshalProp.toString());
+        return unmarshalProp;
     }
 
     /**
@@ -106,8 +95,8 @@ public abstract class AbstractExternalAccessAutowired<T extends ExternalProp> im
      * @throws JAXBException JAXBException
      */
     @Override
-    public <E> E loaderClassPathFile(String classPath, Class<? extends ExternalProp> cls) throws FileNotFoundException, JAXBException {
-        return this.loaderClassPathFile(ResourceUtils.getFile(classPath), cls);
+    public HashMap<String, Object> loaderClassPathFile(String classPath, Class<? extends ExternalProp> cls) throws FileNotFoundException, JAXBException {
+        return this.loaderClassPathFile(ResourceUtils.getFile(classPath));
     }
 
 
@@ -117,26 +106,13 @@ public abstract class AbstractExternalAccessAutowired<T extends ExternalProp> im
      * @param definedPath 路径
      * @return this
      */
-    public AbstractExternalAccessAutowired<T> setPropertiesPath(String definedPath) {
+    public AbstractExternalAccessAutowired setPropertiesPath(String definedPath) {
         this.loadPropPath = definedPath;
         return this;
     }
 
-    public DefaultExternalAccessAutowiredService<T> build() {
-        return new DefaultExternalAccessAutowiredService<T>().build();
-    }
-
-    /**
-     * 设置文件与实体映射
-     *
-     * @param mapping mappingList
-     * @return this
-     */
-    public AbstractExternalAccessAutowired<T> mappingCls(ImmutableMap<String, Class<? extends ExternalProp>> mapping) {
-        if (Objects.nonNull(mapping) && !mapping.isEmpty()) {
-            this.mapping = mapping;
-        }
-        return this;
+    public DefaultExternalAccessAutowiredService build() {
+        return new DefaultExternalAccessAutowiredService().build();
     }
 
     /**
@@ -146,7 +122,7 @@ public abstract class AbstractExternalAccessAutowired<T extends ExternalProp> im
      * @return AbstractExternalInterfaceAda<T>
      */
     @Override
-    public AbstractExternalAccessAutowired<T> addRequestMappingAliasAdapter(InterfaceAdaAliasAdapter adapter) {
+    public AbstractExternalAccessAutowired addRequestMappingAliasAdapter(InterfaceAdaAliasAdapter adapter) {
         this.adapter = adapter;
         return this;
     }
@@ -165,8 +141,7 @@ public abstract class AbstractExternalAccessAutowired<T extends ExternalProp> im
         return loadPropPath;
     }
 
-    public Set<T> getProps() {
-        return props;
+    public Map<String, HashMap<String, Object>> getMappingProps() {
+        return mappingProps;
     }
-
 }

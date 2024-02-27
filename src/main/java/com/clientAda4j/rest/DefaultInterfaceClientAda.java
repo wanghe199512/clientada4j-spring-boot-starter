@@ -5,10 +5,12 @@ import com.alibaba.fastjson2.JSON;
 import com.clientAda4j.DefaultExternalAccessAutowiredService;
 import com.clientAda4j.IExternalAccessAutowired;
 import com.clientAda4j.adapter.InterfaceAdaAliasAdapter;
-import com.clientAda4j.domain.*;
+import com.clientAda4j.domain.DefaultExternalResponseProp;
+import com.clientAda4j.domain.ExternalInterfacePropDomain;
+import com.clientAda4j.domain.ExternalProp;
+import com.clientAda4j.domain.ExternalResponseProp;
 import com.google.common.collect.ImmutableMap;
 import org.apache.http.Header;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
@@ -34,12 +36,11 @@ import java.util.Optional;
 /**
  * 默认接口请求
  *
- * @param <T>
  * @author wanghe
  */
 @Component
 @ConditionalOnProperty(prefix = "clientada4j", name = "enabled", havingValue = "true")
-public class DefaultInterfaceClientAda<T extends ExternalProp> extends AbstractExternalInterfaceClientAda<T> {
+public final class DefaultInterfaceClientAda extends AbstractExternalInterfaceClientAda {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     /**
      * 连接超时
@@ -56,7 +57,7 @@ public class DefaultInterfaceClientAda<T extends ExternalProp> extends AbstractE
             new BasicHeader("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.6)"), new BasicHeader("Connection", "Keep-Alive")};
 
     @Resource
-    private DefaultExternalAccessAutowiredService<T> externalAccessAutowired;
+    private DefaultExternalAccessAutowiredService externalAccessAutowired;
 
     /**
      * 标准参数接口请求
@@ -85,7 +86,7 @@ public class DefaultInterfaceClientAda<T extends ExternalProp> extends AbstractE
      */
     @Override
     public ExternalResponseProp<DefaultExternalResponseProp> request(String externalId, String serviceCd, ImmutableMap<String, Object> params) {
-        return this.request(this.externalAccessAutowired.getInterfaceProp(externalId), serviceCd, params);
+        return this.request(this.externalAccessAutowired.getInterfaceProp(externalId, ExternalProp.class), serviceCd, params);
     }
 
     /**
@@ -96,7 +97,7 @@ public class DefaultInterfaceClientAda<T extends ExternalProp> extends AbstractE
      * @param params     请求参数
      */
     public <E> ExternalResponseProp<E> request(String externalId, String serviceCd, ImmutableMap<String, Object> params, Class<ExternalResponseProp<E>> cls) {
-        return this.request(this.externalAccessAutowired.getInterfaceProp(externalId), serviceCd, params, cls);
+        return this.request(this.externalAccessAutowired.getInterfaceProp(externalId, ExternalProp.class), serviceCd, params, cls);
     }
 
 
@@ -108,7 +109,7 @@ public class DefaultInterfaceClientAda<T extends ExternalProp> extends AbstractE
      * @param params    请求参数
      */
     @Override
-    public ExternalResponseProp<DefaultExternalResponseProp> request(T prop, String serviceCd, ImmutableMap<String, Object> params) {
+    public ExternalResponseProp<DefaultExternalResponseProp> request(ExternalProp prop, String serviceCd, ImmutableMap<String, Object> params) {
         ExternalResponseProp<DefaultExternalResponseProp> responseProp = new ExternalResponseProp<>();
         try {
             DefaultExternalResponseProp resultBean = JSON.parseObject(
@@ -130,7 +131,7 @@ public class DefaultInterfaceClientAda<T extends ExternalProp> extends AbstractE
      * @param cls       响应参数转换为实际对象
      * @param <E>       实际参数对象
      */
-    public <E> ExternalResponseProp<E> request(T prop, String serviceCd, ImmutableMap<String, Object> params, Class<ExternalResponseProp<E>> cls) {
+    public <E> ExternalResponseProp<E> request(ExternalProp prop, String serviceCd, ImmutableMap<String, Object> params, Class<ExternalResponseProp<E>> cls) {
         return BeanUtil.toBean(this.request(prop, serviceCd, params), cls);
     }
 
@@ -143,7 +144,7 @@ public class DefaultInterfaceClientAda<T extends ExternalProp> extends AbstractE
      * @param params    请求参数
      */
     @Override
-    public String request(T prop, String serviceCd, ImmutableMap<String, Object> header, ImmutableMap<String, Object> params) {
+    public String request(ExternalProp prop, String serviceCd, ImmutableMap<String, Object> header, ImmutableMap<String, Object> params) {
         InterfaceAdaAliasAdapter aliasAdapter = this.externalAccessAutowired.getRequestMappingAdaAliasAdapter();
         boolean useAlias = prop.useAliasAsRequest();
         ImmutableMap<String, Object> mergedParams = ImmutableMap.<String, Object>builder()
@@ -185,7 +186,7 @@ public class DefaultInterfaceClientAda<T extends ExternalProp> extends AbstractE
      * @return this
      */
     @Override
-    public <H extends Header> DefaultInterfaceClientAda<T> addClientHeaders(H[] headers) {
+    public <H extends Header> DefaultInterfaceClientAda addClientHeaders(H[] headers) {
         if (Objects.isNull(headers)) {
             throw new RuntimeException("[三方数据请求] >>> header对象不能为null, 请检查....");
         }
@@ -215,7 +216,7 @@ public class DefaultInterfaceClientAda<T extends ExternalProp> extends AbstractE
      * @param serviceCd 要请求的接口Id
      * @param params    请求数据
      */
-    private <E extends ExternalProp> String execute(E prop, String serviceCd, ImmutableMap<String, Object> params) {
+    private String execute(ExternalProp prop, String serviceCd, ImmutableMap<String, Object> params) {
         if (Objects.isNull(prop)) {
             throw new RuntimeException("[三方数据请求] >>> 主接口参数对象有误，本次请求进程终止....");
         }
@@ -233,7 +234,7 @@ public class DefaultInterfaceClientAda<T extends ExternalProp> extends AbstractE
      * @param adapter adapter
      * @return DefaultExternalInterfaceAda<T>
      */
-    public DefaultInterfaceClientAda<T> addRequestMappingAliasAdapter(InterfaceAdaAliasAdapter adapter) {
+    public DefaultInterfaceClientAda addRequestMappingAliasAdapter(InterfaceAdaAliasAdapter adapter) {
         this.externalAccessAutowired.addRequestMappingAliasAdapter(adapter);
         return this;
     }
@@ -244,17 +245,17 @@ public class DefaultInterfaceClientAda<T extends ExternalProp> extends AbstractE
      * @param connectTimeout httpConnectTimeout
      * @return this
      */
-    public DefaultInterfaceClientAda<T> setConnectTimeout(int connectTimeout) {
+    public DefaultInterfaceClientAda setConnectTimeout(int connectTimeout) {
         this.connectTimeout = connectTimeout;
         return this;
     }
 
-    public DefaultInterfaceClientAda<T> setSocketTimeout(int socketTimeout) {
+    public DefaultInterfaceClientAda setSocketTimeout(int socketTimeout) {
         this.socketTimeout = socketTimeout;
         return this;
     }
 
-    public IExternalAccessAutowired<T> getExternalAccessAutowired() {
+    public IExternalAccessAutowired getExternalAccessAutowired() {
         return externalAccessAutowired;
     }
 }
