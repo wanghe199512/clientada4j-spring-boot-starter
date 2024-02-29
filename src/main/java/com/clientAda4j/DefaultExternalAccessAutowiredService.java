@@ -1,11 +1,8 @@
 package com.clientAda4j;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.clientAda4j.domain.ExternalProp;
 import com.google.common.collect.ImmutableMap;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -23,18 +20,7 @@ public final class DefaultExternalAccessAutowiredService extends AbstractExterna
      */
     @Override
     public ImmutableMap<String, Object> getInterfaceProp() {
-        return ImmutableMap.copyOf(this.mappingProps);
-    }
-
-    /**
-     * 使用Id获取配置
-     *
-     * @return ImmutableList<DefaultExternalProp>
-     */
-    @Override
-    public Map<String, Object> getInterfaceProp(String externalId) {
-        Optional<Map.Entry<String, HashMap<String, Object>>> optional = this.mappingProps.entrySet().stream().filter(item -> item.getValue().get("externalId").equals(externalId)).findFirst();
-        return optional.<Map<String, Object>>map(Map.Entry::getValue).orElse(null);
+        return null;
     }
 
     /**
@@ -44,7 +30,12 @@ public final class DefaultExternalAccessAutowiredService extends AbstractExterna
      */
     @Override
     public <T extends ExternalProp> T getInterfaceProp(String externalId, Class<T> cls) {
-        return BeanUtil.mapToBean(this.getInterfaceProp(externalId), cls, true);
+        try {
+            Optional<T> optional = (Optional<T>) this.requestProps.parallelStream().filter(item -> item.getExternalId().equals(externalId)).findFirst();
+            return optional.orElse(null);
+        } catch (Exception e) {
+            throw new RuntimeException("执行错误，请检查参数[cls]是否继承自ExternalProp");
+        }
     }
 
     /**

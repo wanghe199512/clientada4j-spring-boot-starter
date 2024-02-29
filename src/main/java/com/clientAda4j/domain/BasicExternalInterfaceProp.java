@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "interface")
 @XmlAccessorType(value = XmlAccessType.FIELD)
-public class ExternalInterfacePropDomain {
+public class BasicExternalInterfaceProp {
     /**
      * 编码
      */
@@ -36,10 +36,10 @@ public class ExternalInterfacePropDomain {
     @XmlElement(name = "dynamic")
     private String dynamic = "";
 
-    public ExternalInterfacePropDomain() {
+    public BasicExternalInterfaceProp() {
     }
 
-    public ExternalInterfacePropDomain(String serviceCd, String code) {
+    public BasicExternalInterfaceProp(String serviceCd, String code) {
         this.code = code;
         this.serviceCd = serviceCd;
     }
@@ -48,7 +48,7 @@ public class ExternalInterfacePropDomain {
         return code;
     }
 
-    public ExternalInterfacePropDomain setCode(String code) {
+    public BasicExternalInterfaceProp setCode(String code) {
         this.code = code;
         return this;
     }
@@ -57,7 +57,7 @@ public class ExternalInterfacePropDomain {
         return name;
     }
 
-    public ExternalInterfacePropDomain setName(String name) {
+    public BasicExternalInterfaceProp setName(String name) {
         this.name = name;
         return this;
     }
@@ -66,7 +66,7 @@ public class ExternalInterfacePropDomain {
         return serviceCd;
     }
 
-    public ExternalInterfacePropDomain setServiceCd(String serviceCd) {
+    public BasicExternalInterfaceProp setServiceCd(String serviceCd) {
         this.serviceCd = serviceCd;
         return this;
     }
@@ -75,7 +75,7 @@ public class ExternalInterfacePropDomain {
         return desc;
     }
 
-    public ExternalInterfacePropDomain setDesc(String desc) {
+    public BasicExternalInterfaceProp setDesc(String desc) {
         this.desc = desc;
         return this;
     }
@@ -84,7 +84,7 @@ public class ExternalInterfacePropDomain {
         return dynamic;
     }
 
-    public ExternalInterfacePropDomain setDynamic(String dynamic) {
+    public BasicExternalInterfaceProp setDynamic(String dynamic) {
         this.dynamic = dynamic;
         return this;
     }

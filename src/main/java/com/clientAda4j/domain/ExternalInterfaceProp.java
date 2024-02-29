@@ -12,14 +12,14 @@ public class ExternalInterfaceProp {
     /**
      * 接口列表
      */
-    @XmlElement(name = "interface", type = ExternalInterfacePropDomain.class)
-    protected List<ExternalInterfacePropDomain> propDomains;
+    @XmlElement(name = "interface", type = BasicExternalInterfaceProp.class)
+    protected List<BasicExternalInterfaceProp> propDomains;
 
-    public List<ExternalInterfacePropDomain> getPropDomains() {
+    public List<BasicExternalInterfaceProp> getPropDomains() {
         return propDomains;
     }
 
-    public ExternalInterfaceProp setPropDomains(List<ExternalInterfacePropDomain> propDomains) {
+    public ExternalInterfaceProp setPropDomains(List<BasicExternalInterfaceProp> propDomains) {
         this.propDomains = propDomains;
         return this;
     }

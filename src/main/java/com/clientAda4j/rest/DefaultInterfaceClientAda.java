@@ -6,7 +6,8 @@ import com.clientAda4j.DefaultExternalAccessAutowiredService;
 import com.clientAda4j.IExternalAccessAutowired;
 import com.clientAda4j.adapter.InterfaceAdaAliasAdapter;
 import com.clientAda4j.domain.DefaultExternalResponseProp;
-import com.clientAda4j.domain.ExternalInterfacePropDomain;
+import com.clientAda4j.domain.BasicExternalInterfaceProp;
+import com.clientAda4j.domain.ExternalInterfaceProp;
 import com.clientAda4j.domain.ExternalProp;
 import com.clientAda4j.domain.ExternalResponseProp;
 import com.google.common.collect.ImmutableMap;
@@ -69,7 +70,7 @@ public final class DefaultInterfaceClientAda extends AbstractExternalInterfaceCl
     public ExternalResponseProp<ImmutableMap<String, Object>> request(String domainUrl, ImmutableMap<String, Object> params) {
         ExternalResponseProp<ImmutableMap<String, Object>> responseProp = new ExternalResponseProp<>();
         try {
-            ImmutableMap<String, Object> resultBean = JSON.parseObject(this.execute(this.createPost(domainUrl, new ExternalInterfacePropDomain("/", "000000")), params), ImmutableMap.class);
+            ImmutableMap<String, Object> resultBean = JSON.parseObject(this.execute(this.createPost(domainUrl, new BasicExternalInterfaceProp("/", "000000")), params), ImmutableMap.class);
             responseProp.setResponse(resultBean);
         } catch (Exception e) {
             e.printStackTrace();
@@ -201,7 +202,7 @@ public final class DefaultInterfaceClientAda extends AbstractExternalInterfaceCl
      * @param externalInterfaceProp 请求接口参数
      * @return HttpPost
      */
-    private HttpPost createPost(String domainUrl, ExternalInterfacePropDomain externalInterfaceProp) {
+    private HttpPost createPost(String domainUrl, BasicExternalInterfaceProp externalInterfaceProp) {
         HttpPost httpPost = new HttpPost(domainUrl + externalInterfaceProp.getServiceCd());
         httpPost.setConfig(RequestConfig.custom().setSocketTimeout(this.socketTimeout).setConnectTimeout(this.connectTimeout).build());
         httpPost.setHeaders(this.headers);
@@ -220,7 +221,7 @@ public final class DefaultInterfaceClientAda extends AbstractExternalInterfaceCl
         if (Objects.isNull(prop)) {
             throw new RuntimeException("[三方数据请求] >>> 主接口参数对象有误，本次请求进程终止....");
         }
-        Optional<ExternalInterfacePropDomain> optional = prop.getInterfaceProps().getPropDomains().stream().filter(ser -> ser.getServiceCd().equals(serviceCd)).findFirst();
+        Optional<BasicExternalInterfaceProp> optional = prop.getInterfaceProps().getPropDomains().stream().filter(ser -> ser.getServiceCd().equals(serviceCd)).findFirst();
         if (!optional.isPresent()) {
             throw new RuntimeException(String.format("[三方数据请求] >>> 没有获取到包含[%s]请求的有效Id或者链接！", serviceCd));
         }

@@ -3,6 +3,9 @@ package com.clientAda4j.domain;
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 
+/**
+ * @author wanghe
+ */
 @XmlRootElement(name = "namespace")
 @XmlAccessorType(value = XmlAccessType.FIELD)
 public class ExternalProp implements Serializable {
@@ -37,11 +40,6 @@ public class ExternalProp implements Serializable {
      */
     @XmlElement(name = "headers", type = ExternalHeaderProp.class)
     protected ExternalHeaderProp header;
-    /**
-     * 映射对象class
-     */
-    @XmlAttribute(name = "mappingCls", required = true)
-    private String mappingCls;
 
     @XmlAttribute(name = "encoding")
     private String encoding;
@@ -115,15 +113,6 @@ public class ExternalProp implements Serializable {
         return this;
     }
 
-    public String getMappingCls() {
-        return mappingCls;
-    }
-
-    public ExternalProp setMappingCls(String mappingCls) {
-        this.mappingCls = mappingCls;
-        return this;
-    }
-
     public String getEncoding() {
         return encoding;
     }
@@ -145,8 +134,7 @@ public class ExternalProp implements Serializable {
 
     @Override
     public String toString() {
-        return "{映射实体类='" + mappingCls + '\'' +
-                "服务ID='" + externalId + '\'' + "\n" +
+        return "{服务ID='" + externalId + '\'' + "\n" +
                 ", 服务名称='" + name + '\'' + "\n" +
                 ", 服务Url='" + url + '\'' + "\n" +
                 ", 服务检查=" + (healthCheck ? "是" : "否") + "\n" +

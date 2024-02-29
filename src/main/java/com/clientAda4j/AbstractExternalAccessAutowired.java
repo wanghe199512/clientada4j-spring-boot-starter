@@ -1,21 +1,20 @@
 package com.clientAda4j;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.clientAda4j.adapter.DefaultInterfaceAdaAliasAdapter;
 import com.clientAda4j.adapter.InterfaceAdaAliasAdapter;
+import com.clientAda4j.domain.ClientAdaExternalClassProp;
 import com.clientAda4j.domain.ExternalProp;
+import com.clientAda4j.utils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.util.ResourceUtils;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.*;
 
@@ -32,11 +31,15 @@ public abstract class AbstractExternalAccessAutowired implements IExternalAccess
     /**
      * 配置文件路径
      */
-    protected String loadPropPath;
+    protected String propertiesPath;
     /**
      * 映射参数对象
      */
-    protected Map<String, HashMap<String, Object>> mappingProps = new HashMap<String, HashMap<String, Object>>();
+    protected List<ClientAdaExternalClassProp> mappingProps = new ArrayList<>();
+    /**
+     * 请求参数对象
+     */
+    protected List<ExternalProp> requestProps = new ArrayList<>();
 
     /**
      * 请求参数适配器
@@ -48,19 +51,19 @@ public abstract class AbstractExternalAccessAutowired implements IExternalAccess
      */
     protected void loaderFile() {
         try {
-            if (StringUtils.isEmpty(this.loadPropPath)) {
-                throw new RuntimeException(String.format("未找到三方系统接口接入文档 [%s],加载配置失败...", this.loadPropPath));
+            if (StringUtils.isEmpty(this.propertiesPath)) {
+                throw new RuntimeException(String.format("未找到三方系统接口接入文档 [%s],加载配置失败...", this.propertiesPath));
             }
-            LinkedList<Resource> resources = new LinkedList<>(Arrays.asList(new PathMatchingResourcePatternResolver().getResources(this.loadPropPath)));
+            LinkedList<Resource> resources = new LinkedList<>(Arrays.asList(new PathMatchingResourcePatternResolver().getResources(this.propertiesPath)));
             logger.info("Preparing >>> [已找到配置: {}] 开始读取配置文件 {}", resources.size(), resources.toString());
             try {
                 for (Resource resource : resources) {
                     if (!resource.getFile().getName().toLowerCase().endsWith(".xml")) {
                         continue;
                     }
-                    HashMap<String, Object> unmarshalProp = this.loaderClassPathFile(resource.getFile());
-                    this.mappingProps.put((String) unmarshalProp.get("mappingCls"), unmarshalProp);
+                    this.mappingProps.add(this.loaderClientAdaClsMappingProp(resource.getFile()));
                 }
+                this.loaderClientAdaClsRequestProp();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -71,32 +74,34 @@ public abstract class AbstractExternalAccessAutowired implements IExternalAccess
     }
 
     /**
-     * 加载类路径文件
+     * 加载映射参数对象
      *
-     * @param file 文件
-     * @return E
+     * @param file 需要加载的文件
+     * @return ClientAdaExternalClassProp
      * @throws JAXBException JAXBException
      */
-    @Override
-    public HashMap<String, Object> loaderClassPathFile(File file) throws JAXBException {
-        JAXBContext context = JAXBContext.newInstance(ExternalProp.class);
-        Unmarshaller unmarshaller = context.createUnmarshaller();
-        HashMap<String, Object> unmarshalProp = (HashMap<String, Object>) BeanUtil.beanToMap(unmarshaller.unmarshal(file), false, true);
-        logger.info("Preparing >> 类加载映射[{}]: \n[{}] ",unmarshalProp.get("mappingCls"), unmarshalProp.toString());
-        return unmarshalProp;
+    public final ClientAdaExternalClassProp loaderClientAdaClsMappingProp(File file) throws JAXBException {
+        ClientAdaExternalClassProp externalClassProp = (ClientAdaExternalClassProp) this.getJaxbUnmarshaller(ClientAdaExternalClassProp.class, ClientAdaExternalClassProp.class).unmarshal(file);
+        externalClassProp.setPropName(file.getName());
+        externalClassProp.setPropFile(file);
+        logger.info("Preparing >> [映射参数对象] 已加载:[{}] ", externalClassProp.toString());
+        return externalClassProp;
     }
 
     /**
-     * 加载类路径文件
-     *
-     * @param classPath classPath
-     * @param cls       隐射关系实体
-     * @return E
-     * @throws JAXBException JAXBException
+     * 加载请求参数对象
      */
     @Override
-    public HashMap<String, Object> loaderClassPathFile(String classPath, Class<? extends ExternalProp> cls) throws FileNotFoundException, JAXBException {
-        return this.loaderClassPathFile(ResourceUtils.getFile(classPath));
+    public void loaderClientAdaClsRequestProp() throws JAXBException {
+        for (ClientAdaExternalClassProp classProp : this.mappingProps) {
+            Class<?> classes = BeanUtils.loaderClasses(classProp.getClasses());
+            if (!(BeanUtils.getInstance(classes) instanceof ExternalProp)) {
+                continue;
+            }
+            ExternalProp externalProp = (ExternalProp) Objects.requireNonNull(this.getJaxbUnmarshaller(ExternalProp.class, classes)).unmarshal(classProp.getPropFile());
+            this.requestProps.add(externalProp);
+            logger.info("Preparing >> [请求参数对象] 已加载:[{}] ", externalProp.toString());
+        }
     }
 
 
@@ -107,7 +112,7 @@ public abstract class AbstractExternalAccessAutowired implements IExternalAccess
      * @return this
      */
     public AbstractExternalAccessAutowired setPropertiesPath(String definedPath) {
-        this.loadPropPath = definedPath;
+        this.propertiesPath = definedPath;
         return this;
     }
 
@@ -128,20 +133,37 @@ public abstract class AbstractExternalAccessAutowired implements IExternalAccess
     }
 
     /**
+     * 获取 Unmarshaller
+     *
+     * @param cls    cls 父类
+     * @param subCls subCls 子类
+     * @return Unmarshaller
+     */
+    private Unmarshaller getJaxbUnmarshaller(Class<?> cls, Class<?> subCls) {
+        try {
+            JAXBContext context = JAXBContext.newInstance(cls, subCls);
+            return context.createUnmarshaller();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
      * 获取请求映射参数适配器
      *
      * @return InterfaceAdaAliasAdapter<T>
      */
     @Override
-    public InterfaceAdaAliasAdapter getRequestMappingAdaAliasAdapter() {
+    public final InterfaceAdaAliasAdapter getRequestMappingAdaAliasAdapter() {
         return this.adapter;
     }
 
     public String loadPropPath() {
-        return loadPropPath;
+        return propertiesPath;
     }
 
-    public Map<String, HashMap<String, Object>> getMappingProps() {
+    public List<ClientAdaExternalClassProp> getMappingProps() {
         return mappingProps;
     }
 }
