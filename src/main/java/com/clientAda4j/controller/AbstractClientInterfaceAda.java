@@ -25,7 +25,6 @@ import org.slf4j.LoggerFactory;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -73,12 +72,12 @@ public abstract class AbstractClientInterfaceAda implements IClientInterface, Se
         if (Objects.isNull(clientAdaCoreProp)) {
             throw new ClientAdaExecuteException("[三方数据请求] >>> 主接口参数对象有误，本次请求进程终止....");
         }
-        Optional<ClientInterfaceProp> optional = clientAdaCoreProp.getClientInterface().stream().filter(ser -> ser.getInterfaceId().equals(serviceId)).findFirst();
-        if (!optional.isPresent()) {
+        ClientInterfaceProp optional = clientAdaCoreProp.getClientInterface();
+        if (Objects.isNull(optional)) {
             throw new ClientAdaExecuteException(String.format("[三方数据请求] >>> 没有获取到包含[%s]请求的有效Id或者链接！", serviceId));
         }
         logger.info("[三方数据请求] 请求参数详细信息 >>> {}", requestObj.toString());
-        return this.executeUri(this.createPost(clientAdaCoreProp.getClientUri(), optional.get()), requestObj);
+        return this.executeUri(this.createPost(clientAdaCoreProp.getClientUri(), optional), requestObj);
     }
 
 

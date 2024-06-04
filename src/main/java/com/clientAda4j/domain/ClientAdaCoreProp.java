@@ -22,7 +22,7 @@ public class ClientAdaCoreProp {
     /**
      * 客户端接口
      */
-    List<ClientInterfaceProp> clientInterface;
+    ClientInterfaceProp clientInterface;
 
     /**
      * 客户端请求头
@@ -69,11 +69,11 @@ public class ClientAdaCoreProp {
         return this;
     }
 
-    public List<ClientInterfaceProp> getClientInterface() {
+    public ClientInterfaceProp getClientInterface() {
         return clientInterface;
     }
 
-    public ClientAdaCoreProp setClientInterface(List<ClientInterfaceProp> clientInterface) {
+    public ClientAdaCoreProp setClientInterface(ClientInterfaceProp clientInterface) {
         this.clientInterface = clientInterface;
         return this;
     }

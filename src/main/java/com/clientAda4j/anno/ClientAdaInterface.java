@@ -20,6 +20,11 @@ public @interface ClientAdaInterface {
     String interfaceId();
 
     /**
+     * 接口地址
+     */
+    String interfaceUri();
+
+    /**
      * 返回类型
      */
     Class<? extends DefaultClientResponseProp> responseCls() default DefaultClientResponseProp.class;

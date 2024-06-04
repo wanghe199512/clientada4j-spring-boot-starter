@@ -26,6 +26,11 @@ public @interface ClientAdaComponent {
     String clientName() default "";
 
     /**
+     * 请求服务端口
+     */
+    String clientPort() default "";
+
+    /**
      * 请求服务头适配器
      */
     Class<? extends ClientHeaderAdapter> clientHeaderAdapter() default ClientHeaderAdapter.class;
