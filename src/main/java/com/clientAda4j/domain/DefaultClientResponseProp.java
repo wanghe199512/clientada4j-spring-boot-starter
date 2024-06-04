@@ -1,6 +1,6 @@
 package com.clientAda4j.domain;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * 响应结构
@@ -13,13 +13,13 @@ public class DefaultClientResponseProp {
 
     private String message;
 
-    private HashMap<String, Object> data;
+    private LinkedHashMap<String, Object> data;
 
     public int getCode() {
         return code;
     }
 
-    public DefaultClientResponseProp(int code, String message, HashMap<String, Object> data) {
+    public DefaultClientResponseProp(int code, String message, LinkedHashMap<String, Object> data) {
         this.code = code;
         this.message = message;
         this.data = data;
@@ -43,7 +43,7 @@ public class DefaultClientResponseProp {
         return data;
     }
 
-    public DefaultClientResponseProp setData(HashMap<String, Object> data) {
+    public DefaultClientResponseProp setData(LinkedHashMap<String, Object> data) {
         this.data = data;
         return this;
     }

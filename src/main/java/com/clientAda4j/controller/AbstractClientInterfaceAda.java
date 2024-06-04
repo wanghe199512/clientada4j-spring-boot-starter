@@ -3,6 +3,7 @@ package com.clientAda4j.controller;
 import com.alibaba.fastjson2.JSON;
 import com.clientAda4j.domain.ClientAdaCoreProp;
 import com.clientAda4j.domain.ClientInterfaceProp;
+import com.clientAda4j.exeption.ClientAdaExecuteException;
 import com.google.common.collect.ImmutableMap;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -56,7 +57,7 @@ public abstract class AbstractClientInterfaceAda implements IClientInterface, Se
     protected final HttpPost createPost(String domainUrl, ClientInterfaceProp clientInterfaceProp) {
         HttpPost httpPost = new HttpPost(domainUrl + clientInterfaceProp.getInterfaceUri());
         httpPost.setConfig(RequestConfig.custom().setSocketTimeout(this.socketTime).setConnectTimeout(this.connectTime).build());
-        httpPost.setHeaders(headers);
+        httpPost.setHeaders(this.headers);
         logger.info("[三方数据请求] >>> 客户端URL:{} ,客户端请求头:{}", domainUrl, httpPost.getAllHeaders());
         return httpPost;
     }
@@ -70,11 +71,11 @@ public abstract class AbstractClientInterfaceAda implements IClientInterface, Se
      */
     protected final String executeUri(ClientAdaCoreProp clientAdaCoreProp, String serviceId, HttpEntity requestObj) {
         if (Objects.isNull(clientAdaCoreProp)) {
-            throw new RuntimeException("[三方数据请求] >>> 主接口参数对象有误，本次请求进程终止....");
+            throw new ClientAdaExecuteException("[三方数据请求] >>> 主接口参数对象有误，本次请求进程终止....");
         }
         Optional<ClientInterfaceProp> optional = clientAdaCoreProp.getClientInterface().stream().filter(ser -> ser.getInterfaceId().equals(serviceId)).findFirst();
         if (!optional.isPresent()) {
-            throw new RuntimeException(String.format("[三方数据请求] >>> 没有获取到包含[%s]请求的有效Id或者链接！", serviceId));
+            throw new ClientAdaExecuteException(String.format("[三方数据请求] >>> 没有获取到包含[%s]请求的有效Id或者链接！", serviceId));
         }
         logger.info("[三方数据请求] 请求参数详细信息 >>> {}", requestObj.toString());
         return this.executeUri(this.createPost(clientAdaCoreProp.getClientUri(), optional.get()), requestObj);

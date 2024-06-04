@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
 import com.clientAda4j.ClientAdaHeaderAdapter;
 import com.clientAda4j.domain.*;
+import com.clientAda4j.exeption.ClientAdaExecuteException;
 import com.google.common.collect.ImmutableMap;
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.StringEntity;
@@ -94,7 +95,7 @@ public final class DefaultClientInterfaceControllerAda extends AbstractClientInt
     @Override
     public DefaultClientInterfaceControllerAda addClientHeaders(ClientHeaderProp clientHeaderProp) {
         if (Objects.isNull(clientHeaderProp) || clientHeaderProp.getHeaders().length == 0) {
-            throw new RuntimeException("[三方数据请求] >>> header对象不能为null, 请检查....");
+            throw new ClientAdaExecuteException("[三方数据请求] >>> header对象不能为null, 请检查....");
         }
         this.headers = clientHeaderProp.getHeaders();
         return this;

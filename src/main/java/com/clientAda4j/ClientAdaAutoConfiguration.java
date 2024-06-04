@@ -1,6 +1,6 @@
 package com.clientAda4j;
 
-import com.clientAda4j.properties.ClientAdaProperties;
+import com.clientAda4j.component.ClientAdaProperties;
 import com.clientAda4j.controller.DefaultClientInterfaceControllerAda;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
