@@ -1,4 +1,4 @@
-package com.clientAda4j.rest;
+package com.clientAda4j.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.fastjson2.JSON;

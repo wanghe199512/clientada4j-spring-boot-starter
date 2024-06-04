@@ -1,4 +1,4 @@
-package com.clientAda4j.rest;
+package com.clientAda4j.controller;
 
 import com.clientAda4j.ClientAdaHeaderAdapter;
 import com.clientAda4j.domain.ClientAdaCoreProp;

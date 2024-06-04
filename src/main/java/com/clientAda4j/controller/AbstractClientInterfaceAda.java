@@ -1,4 +1,4 @@
-package com.clientAda4j.rest;
+package com.clientAda4j.controller;
 
 import com.alibaba.fastjson2.JSON;
 import com.clientAda4j.domain.ClientAdaCoreProp;

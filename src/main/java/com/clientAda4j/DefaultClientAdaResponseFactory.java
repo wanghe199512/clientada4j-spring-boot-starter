@@ -1,6 +1,6 @@
 package com.clientAda4j;
 
-public class DefaultClientResponseFactory {
+public class DefaultClientAdaResponseFactory {
 
     public void response() {
 

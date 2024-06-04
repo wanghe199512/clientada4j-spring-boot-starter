@@ -1,6 +1,6 @@
 package com.clientAda4j.anno;
 
-import com.clientAda4j.DefaultClientResponseFactory;
+import com.clientAda4j.DefaultClientAdaResponseFactory;
 import com.clientAda4j.domain.DefaultClientResponseProp;
 
 import java.lang.annotation.*;
@@ -27,5 +27,5 @@ public @interface ClientAdaInterface {
     /**
      * 返回结果处理器
      */
-    Class<? extends DefaultClientResponseFactory> responseFactory() default DefaultClientResponseFactory.class;
+    Class<? extends DefaultClientAdaResponseFactory> responseFactory() default DefaultClientAdaResponseFactory.class;
 }
