@@ -1,29 +1,31 @@
 package com.clientAda4j.domain;
 
+import java.util.HashMap;
+
 /**
  * 响应结构
  *
  * @author wanghe
  */
-public class DefaultExternalResponseProp {
+public class DefaultClientResponseProp {
 
     private int code;
 
     private String message;
 
-    private Object data;
+    private HashMap<String, Object> data;
 
     public int getCode() {
         return code;
     }
 
-    public DefaultExternalResponseProp(int code, String message, Object data) {
+    public DefaultClientResponseProp(int code, String message, HashMap<String, Object> data) {
         this.code = code;
         this.message = message;
         this.data = data;
     }
 
-    public DefaultExternalResponseProp setCode(int code) {
+    public DefaultClientResponseProp setCode(int code) {
         this.code = code;
         return this;
     }
@@ -32,7 +34,7 @@ public class DefaultExternalResponseProp {
         return message;
     }
 
-    public DefaultExternalResponseProp setMessage(String message) {
+    public DefaultClientResponseProp setMessage(String message) {
         this.message = message;
         return this;
     }
@@ -41,7 +43,7 @@ public class DefaultExternalResponseProp {
         return data;
     }
 
-    public DefaultExternalResponseProp setData(Object data) {
+    public DefaultClientResponseProp setData(HashMap<String, Object> data) {
         this.data = data;
         return this;
     }

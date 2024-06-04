@@ -5,7 +5,7 @@ package com.clientAda4j.domain;
  *
  * @author wanghe
  */
-public class ExternalResponseProp<T> {
+public class ClientResponseProp<T> {
 
     private T response;
 
@@ -13,14 +13,14 @@ public class ExternalResponseProp<T> {
         return response;
     }
 
-    public ExternalResponseProp() {
+    public ClientResponseProp() {
     }
 
-    public ExternalResponseProp(T response) {
+    public ClientResponseProp(T response) {
         this.response = response;
     }
 
-    public ExternalResponseProp<T> setResponse(T response) {
+    public ClientResponseProp<T> setResponse(T response) {
         this.response = response;
         return this;
     }
