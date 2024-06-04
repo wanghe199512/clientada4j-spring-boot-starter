@@ -21,9 +21,9 @@ import java.util.Objects;
  */
 @Component
 @ConditionalOnProperty(prefix = "clientada4j", name = "enabled", havingValue = "true")
-public final class DefaultClientInterfaceRestControllerAda extends AbstractClientInterfaceAda {
+public final class DefaultClientInterfaceControllerAda extends AbstractClientInterfaceAda {
 
-    public DefaultClientInterfaceRestControllerAda(int connectTime, int socketTime) {
+    public DefaultClientInterfaceControllerAda(int connectTime, int socketTime) {
         this.connectTime = connectTime;
         this.socketTime = socketTime;
     }
@@ -92,7 +92,7 @@ public final class DefaultClientInterfaceRestControllerAda extends AbstractClien
      * @return this
      */
     @Override
-    public DefaultClientInterfaceRestControllerAda addClientHeaders(ClientHeaderProp clientHeaderProp) {
+    public DefaultClientInterfaceControllerAda addClientHeaders(ClientHeaderProp clientHeaderProp) {
         if (Objects.isNull(clientHeaderProp) || clientHeaderProp.getHeaders().length == 0) {
             throw new RuntimeException("[三方数据请求] >>> header对象不能为null, 请检查....");
         }
@@ -109,7 +109,7 @@ public final class DefaultClientInterfaceRestControllerAda extends AbstractClien
      * @return this
      */
     @Override
-    public <E extends ClientAdaHeaderAdapter> DefaultClientInterfaceRestControllerAda addClientHeadersAdapter(E e) {
+    public <E extends ClientAdaHeaderAdapter> DefaultClientInterfaceControllerAda addClientHeadersAdapter(E e) {
         return this.addClientHeaders(new ClientHeaderProp(e.handler()));
     }
 }

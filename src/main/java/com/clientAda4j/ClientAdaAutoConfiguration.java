@@ -1,7 +1,7 @@
 package com.clientAda4j;
 
 import com.clientAda4j.properties.ClientAdaProperties;
-import com.clientAda4j.rest.DefaultClientInterfaceRestControllerAda;
+import com.clientAda4j.rest.DefaultClientInterfaceControllerAda;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -16,8 +16,8 @@ public class ClientAdaAutoConfiguration {
     }
 
     @Bean
-    public DefaultClientInterfaceRestControllerAda init() {
-        return new DefaultClientInterfaceRestControllerAda(clientAdaProperties.getConnectTimeOut(), clientAdaProperties.getSocketTimeOut())
+    public DefaultClientInterfaceControllerAda init() {
+        return new DefaultClientInterfaceControllerAda(clientAdaProperties.getConnectTimeOut(), clientAdaProperties.getSocketTimeOut())
                 .addClientHeadersAdapter(new ClientAdaHeaderAdapter());
     }
 }

@@ -17,7 +17,7 @@ public interface IClientInterface {
      * @param clientHeaderProp header
      * @return DefaultInterfaceClientAda
      */
-    DefaultClientInterfaceRestControllerAda addClientHeaders(ClientHeaderProp clientHeaderProp);
+    DefaultClientInterfaceControllerAda addClientHeaders(ClientHeaderProp clientHeaderProp);
 
     /**
      * 自定义请求header
@@ -25,7 +25,7 @@ public interface IClientInterface {
      * @param e ClientAdaHeaderAdapter
      * @return DefaultInterfaceClientAda
      */
-    <E extends ClientAdaHeaderAdapter> DefaultClientInterfaceRestControllerAda addClientHeadersAdapter(E e);
+    <E extends ClientAdaHeaderAdapter> DefaultClientInterfaceControllerAda addClientHeadersAdapter(E e);
 
     /**
      * 请求接口
