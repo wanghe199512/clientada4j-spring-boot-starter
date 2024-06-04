@@ -7,7 +7,7 @@ import org.apache.http.message.BasicHeader;
  *
  * @author wanghe
  */
-public class ClientAdaHeaderAdapter {
+public class ClientHeaderAdapter {
 
     public BasicHeader[] handler() {
         return new BasicHeader[]{new BasicHeader("Content-Type", "application/json"),

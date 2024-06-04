@@ -1,6 +1,6 @@
 package com.clientAda4j.controller;
 
-import com.clientAda4j.ClientAdaHeaderAdapter;
+import com.clientAda4j.ClientHeaderAdapter;
 import com.clientAda4j.domain.ClientAdaCoreProp;
 import com.clientAda4j.domain.ClientHeaderProp;
 import com.clientAda4j.domain.ClientResponseProp;
@@ -25,7 +25,7 @@ public interface IClientInterface {
      * @param e ClientAdaHeaderAdapter
      * @return DefaultInterfaceClientAda
      */
-    <E extends ClientAdaHeaderAdapter> DefaultClientInterfaceControllerAda addClientHeadersAdapter(E e);
+    <E extends ClientHeaderAdapter> DefaultClientInterfaceControllerAda addClientHeadersAdapter(E e);
 
     /**
      * 请求接口

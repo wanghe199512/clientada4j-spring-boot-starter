@@ -1,6 +1,6 @@
 package com.clientAda4j.anno;
 
-import com.clientAda4j.ClientAdaHeaderAdapter;
+import com.clientAda4j.ClientHeaderAdapter;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.*;
@@ -28,5 +28,5 @@ public @interface ClientAdaComponent {
     /**
      * 请求服务头适配器
      */
-    Class<? extends ClientAdaHeaderAdapter> clientHeaderAdapter() default ClientAdaHeaderAdapter.class;
+    Class<? extends ClientHeaderAdapter> clientHeaderAdapter() default ClientHeaderAdapter.class;
 }

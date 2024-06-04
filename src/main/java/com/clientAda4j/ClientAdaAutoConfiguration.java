@@ -18,6 +18,6 @@ public class ClientAdaAutoConfiguration {
     @Bean
     public DefaultClientInterfaceControllerAda init() {
         return new DefaultClientInterfaceControllerAda(clientAdaProperties.getConnectTimeOut(), clientAdaProperties.getSocketTimeOut())
-                .addClientHeadersAdapter(new ClientAdaHeaderAdapter());
+                .addClientHeadersAdapter(new ClientHeaderAdapter());
     }
 }

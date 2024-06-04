@@ -3,7 +3,7 @@ package com.clientAda4j.controller;
 import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
-import com.clientAda4j.ClientAdaHeaderAdapter;
+import com.clientAda4j.ClientHeaderAdapter;
 import com.clientAda4j.domain.*;
 import com.clientAda4j.exeption.ClientAdaExecuteException;
 import com.google.common.collect.ImmutableMap;
@@ -110,7 +110,7 @@ public final class DefaultClientInterfaceControllerAda extends AbstractClientInt
      * @return this
      */
     @Override
-    public <E extends ClientAdaHeaderAdapter> DefaultClientInterfaceControllerAda addClientHeadersAdapter(E e) {
+    public <E extends ClientHeaderAdapter> DefaultClientInterfaceControllerAda addClientHeadersAdapter(E e) {
         return this.addClientHeaders(new ClientHeaderProp(e.handler()));
     }
 }
