@@ -2,7 +2,6 @@ package com.clientAda4j.rest;
 
 import com.alibaba.fastjson2.JSON;
 import com.clientAda4j.domain.ClientAdaCoreProp;
-import com.clientAda4j.domain.ClientHeaderProp;
 import com.clientAda4j.domain.ClientInterfaceProp;
 import com.google.common.collect.ImmutableMap;
 import org.apache.http.HttpEntity;
@@ -37,16 +36,15 @@ public abstract class AbstractClientInterfaceAda implements IClientInterface, Se
     /**
      * 连接超时
      */
-    protected int connectTimeout = 8 * 1000;
+    protected int connectTime = 8 * 1000;
     /**
      * 请求超时
      */
-    protected int socketTimeout = 10000;
+    protected int socketTime = 10000;
     /**
      * 请求头
      */
-    protected BasicHeader[] headers = {new BasicHeader("Content-Type", "application/json"),
-            new BasicHeader("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.6)"), new BasicHeader("Connection", "Keep-Alive")};
+    protected BasicHeader[] headers;
 
     /**
      * 创建请求对象
@@ -57,7 +55,7 @@ public abstract class AbstractClientInterfaceAda implements IClientInterface, Se
      */
     protected final HttpPost createPost(String domainUrl, ClientInterfaceProp clientInterfaceProp) {
         HttpPost httpPost = new HttpPost(domainUrl + clientInterfaceProp.getInterfaceUri());
-        httpPost.setConfig(RequestConfig.custom().setSocketTimeout(this.socketTimeout).setConnectTimeout(this.connectTimeout).build());
+        httpPost.setConfig(RequestConfig.custom().setSocketTimeout(this.socketTime).setConnectTimeout(this.connectTime).build());
         httpPost.setHeaders(headers);
         logger.info("[三方数据请求] >>> 客户端URL:{} ,客户端请求头:{}", domainUrl, httpPost.getAllHeaders());
         return httpPost;
@@ -78,7 +76,6 @@ public abstract class AbstractClientInterfaceAda implements IClientInterface, Se
         if (!optional.isPresent()) {
             throw new RuntimeException(String.format("[三方数据请求] >>> 没有获取到包含[%s]请求的有效Id或者链接！", serviceId));
         }
-        clientAdaCoreProp.setClientHeaderProp(new ClientHeaderProp(this.headers));
         logger.info("[三方数据请求] 请求参数详细信息 >>> {}", requestObj.toString());
         return this.executeUri(this.createPost(clientAdaCoreProp.getClientUri(), optional.get()), requestObj);
     }

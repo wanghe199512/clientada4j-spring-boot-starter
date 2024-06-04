@@ -25,7 +25,7 @@ public @interface ClientAdaInterface {
     Class<? extends DefaultClientResponseProp> responseCls() default DefaultClientResponseProp.class;
 
     /**
-     * 返回处理器
+     * 返回结果处理器
      */
-    Class<?> responseHandlerFactory() default DefaultResponseHandlerFactory.class;
+    Class<? extends DefaultResponseHandlerFactory> responseFactory() default DefaultResponseHandlerFactory.class;
 }

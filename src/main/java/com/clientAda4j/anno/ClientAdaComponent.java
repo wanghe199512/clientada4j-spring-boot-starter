@@ -13,20 +13,20 @@ public @interface ClientAdaComponent {
     /**
      * 请求服务url
      */
-    String clientAdaUrl() default "";
+    String clientUrl() default "";
 
     /**
      * 请求服务ID
      */
-    String clientAdaId() default "";
+    String clientId() default "";
 
     /**
      * 请求服务名称
      */
-    String clientAdaName() default "";
+    String clientName() default "";
 
     /**
      * 请求服务头适配器
      */
-    Class<? extends ClientAdaHeaderAdapter> clientAdaHeaderAdapter() default ClientAdaHeaderAdapter.class;
+    Class<? extends ClientAdaHeaderAdapter> clientHeaderAdapter() default ClientAdaHeaderAdapter.class;
 }

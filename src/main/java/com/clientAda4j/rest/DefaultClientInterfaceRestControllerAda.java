@@ -21,8 +21,12 @@ import java.util.Objects;
  */
 @Component
 @ConditionalOnProperty(prefix = "clientada4j", name = "enabled", havingValue = "true")
-public final class DefaultClientInterfaceRequestAda extends AbstractClientInterfaceAda {
+public final class DefaultClientInterfaceRestControllerAda extends AbstractClientInterfaceAda {
 
+    public DefaultClientInterfaceRestControllerAda(int connectTime, int socketTime) {
+        this.connectTime = connectTime;
+        this.socketTime = socketTime;
+    }
 
     /**
      * 标准参数接口请求
@@ -73,7 +77,8 @@ public final class DefaultClientInterfaceRequestAda extends AbstractClientInterf
      * @param cls               响应参数转换为实际对象
      * @param <E>               实际参数对象
      */
-    protected <E> ClientResponseProp<E> request(ClientAdaCoreProp clientAdaCoreProp, String serviceId, HttpEntity requestObj, Class<E> cls) {
+    @Override
+    public <E> ClientResponseProp<E> request(ClientAdaCoreProp clientAdaCoreProp, String serviceId, HttpEntity requestObj, Class<E> cls) {
         return new ClientResponseProp<E>(BeanUtil.toBean(this.executeUri(clientAdaCoreProp, serviceId, requestObj), cls));
     }
 
@@ -87,7 +92,7 @@ public final class DefaultClientInterfaceRequestAda extends AbstractClientInterf
      * @return this
      */
     @Override
-    public DefaultClientInterfaceRequestAda addClientHeaders(ClientHeaderProp clientHeaderProp) {
+    public DefaultClientInterfaceRestControllerAda addClientHeaders(ClientHeaderProp clientHeaderProp) {
         if (Objects.isNull(clientHeaderProp) || clientHeaderProp.getHeaders().length == 0) {
             throw new RuntimeException("[三方数据请求] >>> header对象不能为null, 请检查....");
         }
@@ -104,29 +109,7 @@ public final class DefaultClientInterfaceRequestAda extends AbstractClientInterf
      * @return this
      */
     @Override
-    public <E extends ClientAdaHeaderAdapter> DefaultClientInterfaceRequestAda addClientHeadersAdapter(E e) {
+    public <E extends ClientAdaHeaderAdapter> DefaultClientInterfaceRestControllerAda addClientHeadersAdapter(E e) {
         return this.addClientHeaders(new ClientHeaderProp(e.handler()));
-    }
-
-    /**
-     * 设置连接超时
-     *
-     * @param connectTimeout httpConnectTimeout
-     * @return this
-     */
-    public DefaultClientInterfaceRequestAda setConnectTimeout(int connectTimeout) {
-        this.connectTimeout = connectTimeout;
-        return this;
-    }
-
-    /**
-     * 设置请求等待时间
-     *
-     * @param socketTimeout socketTimeout
-     * @return DefaultInterfaceClientAda
-     */
-    public DefaultClientInterfaceRequestAda setSocketTimeout(int socketTimeout) {
-        this.socketTimeout = socketTimeout;
-        return this;
     }
 }
