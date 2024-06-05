@@ -6,6 +6,7 @@ import com.alibaba.fastjson2.TypeReference;
 import com.clientAda4j.ClientHeaderAdapter;
 import com.clientAda4j.DefaultClientAdaResponseFactory;
 import com.clientAda4j.IClientAdaResponseFactory;
+import com.clientAda4j.LinkedHashMapClientAdaResponseFactory;
 import com.clientAda4j.domain.*;
 import com.clientAda4j.exeption.ClientAdaExecuteException;
 import com.google.common.collect.ImmutableMap;
@@ -41,10 +42,8 @@ public final class DefaultClientInterfaceControllerAda extends AbstractClientInt
     public ClientResponseProp<LinkedHashMap<String, Object>> get(String clientUrl, String interfaceUri, ImmutableMap<String, Object> params) {
         ClientResponseProp<LinkedHashMap<String, Object>> clientResponseProp = new ClientResponseProp<>();
         try {
-            LinkedHashMap<String, Object> resultBean = JSON.parseObject(this.executeUri(this.createPost(clientUrl,
-                    new ClientInterfaceProp("---", "000000", interfaceUri)), new StringEntity(JSON.toJSONString(params))), new TypeReference<LinkedHashMap<String, Object>>() {
-            });
-            clientResponseProp.setResponse(resultBean);
+            clientResponseProp.setResponse(new LinkedHashMapClientAdaResponseFactory().process(this.executeUri(this.createPost(clientUrl,
+                    new ClientInterfaceProp("---", "000000", interfaceUri)), new StringEntity(JSON.toJSONString(params)))));
         } catch (Exception e) {
             logger.error("clientUrl:{} interfaceUri:{} 格式化返回参数错误...", clientUrl, interfaceUri, e);
         }
@@ -87,7 +86,7 @@ public final class DefaultClientInterfaceControllerAda extends AbstractClientInt
      *
      * @param clientAdaCoreProp 接口参数
      * @param requestObj        请求对象
-     * @param factory   IClientAdaResponseFactory
+     * @param factory           IClientAdaResponseFactory
      * @param <E>               实际参数对象
      */
     @Override
