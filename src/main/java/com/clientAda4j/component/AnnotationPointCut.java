@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
-public class ClientAdaAnnotationPointCut {
+public class AnnotationPointCut {
 
     @Autowired
-    private ClientAdaAnnotationPointCutExecutor executor;
+    private AnnotationPointCutExecutor executor;
 
     // 处理类上面的注解ClientAdaComponent
     @Around(value = "@within(clientAdaComponent)")

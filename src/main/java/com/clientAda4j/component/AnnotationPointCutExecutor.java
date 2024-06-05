@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 @Component
-public class ClientAdaAnnotationPointCutExecutor {
+public class AnnotationPointCutExecutor {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -75,7 +75,7 @@ public class ClientAdaAnnotationPointCutExecutor {
             ClientResponseProp<?> request = this.defaultClientInterfaceControllerAda
                     .addClientHeadersAdapter(this.clientHeaderAdapter.newInstance()).request(this.clientAdaCoreProp, new StringEntity(args[0].toString()), this.responseCls);
         } catch (Exception e) {
-            throw new ClientAdaExecuteException("执行请求时遇到了异常", e);
+            e.printStackTrace();
         }
         return currentPoint.proceed();
     }
