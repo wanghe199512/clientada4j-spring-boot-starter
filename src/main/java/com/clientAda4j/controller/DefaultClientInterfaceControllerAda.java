@@ -4,6 +4,8 @@ import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
 import com.clientAda4j.ClientHeaderAdapter;
+import com.clientAda4j.DefaultClientAdaResponseFactory;
+import com.clientAda4j.IClientAdaResponseFactory;
 import com.clientAda4j.domain.*;
 import com.clientAda4j.exeption.ClientAdaExecuteException;
 import com.google.common.collect.ImmutableMap;
@@ -58,14 +60,13 @@ public final class DefaultClientInterfaceControllerAda extends AbstractClientInt
      */
     @Override
     public ClientResponseProp<DefaultClientResponseProp> request(ClientAdaCoreProp clientAdaCoreProp, ImmutableMap<String, Object> params) {
-        ClientResponseProp<DefaultClientResponseProp> clientResponseProp = new ClientResponseProp<>();
         try {
-            clientResponseProp.setResponse(JSON.parseObject(this.executeUri(clientAdaCoreProp, new StringEntity(JSON.toJSONString(params))), DefaultClientResponseProp.class));
+            ClientResponseProp<DefaultClientResponseProp> clientResponseProp = this.request(clientAdaCoreProp, new StringEntity(JSON.toJSONString(params)), new DefaultClientAdaResponseFactory());
+            this.logger.info("[三方数据请求] 请求响应详细信息 >>> {}", clientResponseProp.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        this.logger.info("[三方数据请求] 请求响应详细信息 >>> {}", clientResponseProp.toString());
-        return clientResponseProp;
+        return null;
     }
 
     /**
@@ -79,6 +80,19 @@ public final class DefaultClientInterfaceControllerAda extends AbstractClientInt
     @Override
     public <E> ClientResponseProp<E> request(ClientAdaCoreProp clientAdaCoreProp, HttpEntity requestObj, Class<E> cls) {
         return new ClientResponseProp<E>(BeanUtil.toBean(this.executeUri(clientAdaCoreProp, requestObj), cls));
+    }
+
+    /**
+     * 请求接口
+     *
+     * @param clientAdaCoreProp 接口参数
+     * @param requestObj        请求对象
+     * @param factory   IClientAdaResponseFactory
+     * @param <E>               实际参数对象
+     */
+    @Override
+    public <E> ClientResponseProp<E> request(ClientAdaCoreProp clientAdaCoreProp, HttpEntity requestObj, IClientAdaResponseFactory<E> factory) {
+        return new ClientResponseProp<E>(factory.process(this.executeUri(clientAdaCoreProp, requestObj)));
     }
 
     /**
