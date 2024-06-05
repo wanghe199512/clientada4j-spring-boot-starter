@@ -1,6 +1,7 @@
 package com.clientAda4j.domain;
 
-import java.util.List;
+import com.clientAda4j.exeption.ClientAdaExecuteException;
+import org.apache.commons.lang3.StringUtils;
 
 public class ClientAdaCoreProp {
     /**
@@ -94,5 +95,18 @@ public class ClientAdaCoreProp {
     public ClientAdaCoreProp setClientNote(String clientNote) {
         this.clientNote = clientNote;
         return this;
+    }
+
+    /**
+     * 获取完整的URL
+     */
+    public String getCompleteUrl() {
+        if (StringUtils.isEmpty(this.clientPort) || StringUtils.isEmpty(this.clientUri)) {
+            throw new ClientAdaExecuteException("URL,端口号无效，请检查或重新配置");
+        }
+        if (!this.clientUri.startsWith("http") || !this.clientUri.startsWith("https")) {
+            throw new ClientAdaExecuteException("无效的链接[以HTTP或HTTPS开头]");
+        }
+        return String.format("%s/:%s/", this.clientUri, this.clientPort);
     }
 }

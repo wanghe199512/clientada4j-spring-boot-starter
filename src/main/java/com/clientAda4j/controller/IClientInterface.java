@@ -34,27 +34,25 @@ public interface IClientInterface {
      * @param interfaceUri 接口url
      * @param params       请求参数
      */
-    ClientResponseProp<LinkedHashMap<String, Object>> request(String clientUrl, String interfaceUri, ImmutableMap<String, Object> params);
+    ClientResponseProp<LinkedHashMap<String, Object>> get(String clientUrl, String interfaceUri, ImmutableMap<String, Object> params);
 
 
     /**
      * 请求接口
      *
      * @param clientAdaCoreProp 接口参数
-     * @param serviceId         请求子服务code
      * @param params            请求参数
      */
-    ClientResponseProp<DefaultClientResponseProp> request(ClientAdaCoreProp clientAdaCoreProp, String serviceId, ImmutableMap<String, Object> params);
+    ClientResponseProp<DefaultClientResponseProp> request(ClientAdaCoreProp clientAdaCoreProp, ImmutableMap<String, Object> params);
 
     /**
      * 请求接口
      *
      * @param clientAdaCoreProp 接口参数
-     * @param serviceId         请求子服务code
      * @param requestObj        请求对象
      * @param cls               响应参数转换为实际对象
      * @param <E>               实际参数对象
      */
-    <E> ClientResponseProp<E> request(ClientAdaCoreProp clientAdaCoreProp, String serviceId, HttpEntity requestObj, Class<E> cls);
+    <E> ClientResponseProp<E> request(ClientAdaCoreProp clientAdaCoreProp, HttpEntity requestObj, Class<E> cls);
 
 }

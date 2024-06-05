@@ -32,5 +32,5 @@ public @interface ClientAdaInterface {
     /**
      * 返回结果处理器
      */
-    Class<? extends DefaultClientAdaResponseFactory> responseFactory() default DefaultClientAdaResponseFactory.class;
+    Class<? extends DefaultClientAdaResponseFactory> responseFactory();
 }

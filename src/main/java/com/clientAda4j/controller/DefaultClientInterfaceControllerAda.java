@@ -36,7 +36,7 @@ public final class DefaultClientInterfaceControllerAda extends AbstractClientInt
      * @param params    请求参数
      */
     @Override
-    public ClientResponseProp<LinkedHashMap<String, Object>> request(String clientUrl, String interfaceUri, ImmutableMap<String, Object> params) {
+    public ClientResponseProp<LinkedHashMap<String, Object>> get(String clientUrl, String interfaceUri, ImmutableMap<String, Object> params) {
         ClientResponseProp<LinkedHashMap<String, Object>> clientResponseProp = new ClientResponseProp<>();
         try {
             LinkedHashMap<String, Object> resultBean = JSON.parseObject(this.executeUri(this.createPost(clientUrl,
@@ -54,14 +54,13 @@ public final class DefaultClientInterfaceControllerAda extends AbstractClientInt
      * 请求接口
      *
      * @param clientAdaCoreProp 接口参数
-     * @param serviceId         请求服务ID
      * @param params            请求参数
      */
     @Override
-    public ClientResponseProp<DefaultClientResponseProp> request(ClientAdaCoreProp clientAdaCoreProp, String serviceId, ImmutableMap<String, Object> params) {
+    public ClientResponseProp<DefaultClientResponseProp> request(ClientAdaCoreProp clientAdaCoreProp, ImmutableMap<String, Object> params) {
         ClientResponseProp<DefaultClientResponseProp> clientResponseProp = new ClientResponseProp<>();
         try {
-            clientResponseProp.setResponse(JSON.parseObject(this.executeUri(clientAdaCoreProp, serviceId, new StringEntity(JSON.toJSONString(params))), DefaultClientResponseProp.class));
+            clientResponseProp.setResponse(JSON.parseObject(this.executeUri(clientAdaCoreProp, new StringEntity(JSON.toJSONString(params))), DefaultClientResponseProp.class));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -73,16 +72,14 @@ public final class DefaultClientInterfaceControllerAda extends AbstractClientInt
      * 请求接口
      *
      * @param clientAdaCoreProp 接口参数
-     * @param serviceId         请求子服务code
      * @param requestObj        请求对象
      * @param cls               响应参数转换为实际对象
      * @param <E>               实际参数对象
      */
     @Override
-    public <E> ClientResponseProp<E> request(ClientAdaCoreProp clientAdaCoreProp, String serviceId, HttpEntity requestObj, Class<E> cls) {
-        return new ClientResponseProp<E>(BeanUtil.toBean(this.executeUri(clientAdaCoreProp, serviceId, requestObj), cls));
+    public <E> ClientResponseProp<E> request(ClientAdaCoreProp clientAdaCoreProp, HttpEntity requestObj, Class<E> cls) {
+        return new ClientResponseProp<E>(BeanUtil.toBean(this.executeUri(clientAdaCoreProp, requestObj), cls));
     }
-
 
     /**
      * 添加请求头
