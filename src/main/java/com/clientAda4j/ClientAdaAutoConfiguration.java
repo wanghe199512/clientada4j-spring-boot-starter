@@ -2,22 +2,24 @@ package com.clientAda4j;
 
 import com.clientAda4j.component.ClientAdaProperties;
 import com.clientAda4j.controller.DefaultClientInterfaceControllerAda;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
-@Component
+@Configuration
+@EnableConfigurationProperties({ClientAdaProperties.class})
 public class ClientAdaAutoConfiguration {
-    @Autowired
-    private final ClientAdaProperties clientAdaProperties;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public ClientAdaAutoConfiguration(ClientAdaProperties clientAdaProperties) {
-        this.clientAdaProperties = clientAdaProperties;
-    }
+    private ClientAdaProperties clientAdaProperties;
 
     @Bean
     public DefaultClientInterfaceControllerAda init() {
-        return new DefaultClientInterfaceControllerAda(clientAdaProperties.getConnectTimeOut(), clientAdaProperties.getSocketTimeOut())
+        DefaultClientInterfaceControllerAda controllerAda = new DefaultClientInterfaceControllerAda(clientAdaProperties.getConnectTimeOut(), clientAdaProperties.getSocketTimeOut())
                 .addClientHeadersAdapter(new ClientHeaderAdapter());
+        logger.info("clientAda[{}] initial success", clientAdaProperties);
+        return controllerAda;
     }
 }
