@@ -1,6 +1,7 @@
 package com.clientAda4j.anno;
 
-import com.clientAda4j.DefaultClientAdaResponseFactory;
+import com.clientAda4j.IClientAdaResponseFactory;
+import com.clientAda4j.LinkedHashMapClientAdaResponseFactory;
 import com.clientAda4j.domain.DefaultClientResponseProp;
 
 import java.lang.annotation.*;
@@ -32,5 +33,5 @@ public @interface ClientAdaInterface {
     /**
      * 返回结果处理器
      */
-    Class<? extends DefaultClientAdaResponseFactory> responseFactory() default DefaultClientAdaResponseFactory.class;
+    Class<? extends IClientAdaResponseFactory> responseFactory() default LinkedHashMapClientAdaResponseFactory.class;
 }
