@@ -82,13 +82,10 @@ public class AnnotationPointCutExecutor implements Executor {
     @Override
     public ClientResponseProp<?> execute(Object proceedingArgs) {
         try {
-            logger.info("[ClientAda SDK] 请求参数 >>> {}", proceedingArgs);
             if (Objects.nonNull(this.responseFactory)) {
-                return this.defaultClientInterfaceControllerAda.addClientHeadersAdapter(
-                        this.clientHeaderAdapter.newInstance()).request(this.clientAdaCoreProp, new StringEntity(JSON.toJSONString(proceedingArgs)), this.responseFactory.newInstance());
+                return this.defaultClientInterfaceControllerAda.addClientHeadersAdapter(this.clientHeaderAdapter.newInstance()).request(this.clientAdaCoreProp, new StringEntity(JSON.toJSONString(proceedingArgs)), this.responseFactory.newInstance());
             } else {
-                return this.defaultClientInterfaceControllerAda.addClientHeadersAdapter(
-                        this.clientHeaderAdapter.newInstance()).request(this.clientAdaCoreProp, new StringEntity(JSON.toJSONString(proceedingArgs)), this.responseCls);
+                return this.defaultClientInterfaceControllerAda.addClientHeadersAdapter(this.clientHeaderAdapter.newInstance()).request(this.clientAdaCoreProp, new StringEntity(JSON.toJSONString(proceedingArgs)), this.responseCls);
             }
         } catch (Exception e) {
             e.printStackTrace();
