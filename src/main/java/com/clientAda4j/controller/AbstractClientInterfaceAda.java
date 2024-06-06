@@ -91,7 +91,7 @@ public abstract class AbstractClientInterfaceAda implements IClientInterface, Se
             httpPost.setEntity(requestObj);
             HttpResponse httpResponse = httpClient.execute(httpPost);
             String responseString = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
-            logger.debug("[ClientAda SDK] 原始响应 >>> {}", responseString);
+            logger.info("[ClientAda SDK] 原始响应 >>> {}", responseString);
             return responseString;
         } catch (Exception e) {
             logger.error("执行远程请求时发生了错误...", e);
