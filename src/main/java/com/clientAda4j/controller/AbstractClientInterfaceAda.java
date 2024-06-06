@@ -57,7 +57,7 @@ public abstract class AbstractClientInterfaceAda implements IClientInterface, Se
         HttpPost httpPost = new HttpPost(String.format("%s/%s", domainUrl, clientInterfaceProp.getInterfaceUri()));
         httpPost.setConfig(RequestConfig.custom().setSocketTimeout(this.socketTime).setConnectTimeout(this.connectTime).build());
         httpPost.setHeaders(this.headers);
-        logger.info("[三方数据请求] >>> 客户端URL:{} ,客户端请求头:{}", domainUrl, httpPost.getAllHeaders());
+        logger.info("[ClientAda SDK] >>> 客户端URL:{} ,客户端请求头:{}", domainUrl, httpPost.getAllHeaders());
         return httpPost;
     }
 
@@ -69,13 +69,12 @@ public abstract class AbstractClientInterfaceAda implements IClientInterface, Se
      */
     protected final String executeUri(ClientAdaCoreProp clientAdaCoreProp, HttpEntity requestObj) {
         if (Objects.isNull(clientAdaCoreProp)) {
-            throw new ClientAdaExecuteException("[三方数据请求] >>> 请求参数对象有误，本次请求进程终止....");
+            throw new ClientAdaExecuteException("[ClientAda SDK] >>> 请求参数对象有误，本次请求进程终止....");
         }
         ClientInterfaceProp clientInterface = clientAdaCoreProp.getClientInterface();
         if (Objects.isNull(clientInterface)) {
-            throw new ClientAdaExecuteException("[三方数据请求] >>> 接口参数对象有误");
+            throw new ClientAdaExecuteException("[ClientAda SDK] >>> 接口参数对象有误");
         }
-        logger.info("[三方数据请求] 请求参数详细信息 >>> {}", requestObj.toString());
         return this.executeUri(this.createPost(clientAdaCoreProp.getCompleteUrl(), clientInterface), requestObj);
     }
 
@@ -94,7 +93,7 @@ public abstract class AbstractClientInterfaceAda implements IClientInterface, Se
             httpPost.setEntity(requestObj);
             HttpResponse httpResponse = httpClient.execute(httpPost);
             String responseString = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
-            logger.info(" [三方数据请求] 来自{}的原始响应 >>> {}", httpPost.getURI(), responseString);
+            logger.info(" [ClientAda SDK] 来自{}的原始响应 >>> {}", httpPost.getURI(), responseString);
             return responseString;
         } catch (Exception e) {
             logger.error("执行远程请求时发生了错误...", e);

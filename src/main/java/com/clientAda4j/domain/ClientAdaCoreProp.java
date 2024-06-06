@@ -101,12 +101,9 @@ public class ClientAdaCoreProp {
      * 获取完整的URL
      */
     public String getCompleteUrl() {
-        if (StringUtils.isEmpty(this.clientPort) || StringUtils.isEmpty(this.clientUri)) {
-            throw new ClientAdaExecuteException("clientPort or clientUri must be a value");
-        }
         if (!(this.clientUri.startsWith("http") || this.clientUri.startsWith("https"))) {
             throw new ClientAdaExecuteException("invalid links");
         }
-        return String.format("%s:%s/", this.clientUri, this.clientPort);
+        return StringUtils.isNotEmpty(this.clientPort) ? String.format("%s:%s/", this.clientUri, this.clientPort) : this.clientUri;
     }
 }

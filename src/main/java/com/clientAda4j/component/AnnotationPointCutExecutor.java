@@ -1,5 +1,6 @@
 package com.clientAda4j.component;
 
+import com.alibaba.fastjson2.JSON;
 import com.clientAda4j.ClientHeaderAdapter;
 import com.clientAda4j.DefaultClientAdaResponseFactory;
 import com.clientAda4j.anno.ClientAdaComponent;
@@ -7,7 +8,6 @@ import com.clientAda4j.anno.ClientAdaInterface;
 import com.clientAda4j.controller.DefaultClientInterfaceControllerAda;
 import com.clientAda4j.domain.ClientAdaCoreProp;
 import com.clientAda4j.domain.ClientInterfaceProp;
-import com.clientAda4j.domain.ClientResponseProp;
 import com.clientAda4j.exeption.ClientAdaExecuteException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.StringEntity;
@@ -19,6 +19,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+/**
+ * 注解端点执行器
+ *
+ * @author wanghe
+ */
 @Component
 public class AnnotationPointCutExecutor {
 
@@ -58,10 +63,10 @@ public class AnnotationPointCutExecutor {
      */
     public Object process(ProceedingJoinPoint currentPoint, ClientAdaInterface clientAdaInterface) throws Throwable {
         if (StringUtils.isEmpty(clientAdaInterface.interfaceId()) && StringUtils.isEmpty(clientAdaInterface.interfaceName())) {
-            throw new ClientAdaExecuteException("[执行器] interfaceId和interfaceName 不能同时为空");
+            throw new ClientAdaExecuteException("interfaceId和interfaceName不能同时为空");
         }
         if (Objects.isNull(this.clientAdaCoreProp)) {
-            throw new ClientAdaExecuteException("[执行器] 未找到@ClientAdaComponent注解或@ClientAdaComponent初始化失败");
+            throw new ClientAdaExecuteException("未找到@ClientAdaComponent注解或@ClientAdaComponent,执行失败!!");
         }
         this.responseFactory = clientAdaInterface.responseFactory();
         this.responseCls = clientAdaInterface.responseCls();
@@ -76,15 +81,19 @@ public class AnnotationPointCutExecutor {
      */
     private Object execute(ProceedingJoinPoint currentPoint) throws Throwable {
         try {
-            Object[] args = this.getProceedingJoinPointArgs(currentPoint);
-            if (args.length > 1) {
-                throw new ClientAdaExecuteException("适配方法只能有一个请求参数,执行已终止...");
+            Object[] proceedingJoinPointArgs = this.getProceedingJoinPointArgs(currentPoint);
+            if (proceedingJoinPointArgs.length > 1) {
+                throw new ClientAdaExecuteException("适配方法只能有一个请求参数");
             }
-            if(Objects.nonNull(this.responseFactory)){
-                this.defaultClientInterfaceControllerAda.addClientHeadersAdapter(this.clientHeaderAdapter.newInstance()).request(this.clientAdaCoreProp, new StringEntity(args[0].toString()), this.responseFactory.newInstance());
-            }else{
-                this.defaultClientInterfaceControllerAda.addClientHeadersAdapter(this.clientHeaderAdapter.newInstance()).request(this.clientAdaCoreProp, new StringEntity(args[0].toString()), this.responseCls);
+            logger.info("[ClientAda SDK] 请求参数详细信息 >>> {}", proceedingJoinPointArgs);
+            if (Objects.nonNull(this.responseFactory)) {
+                this.defaultClientInterfaceControllerAda.addClientHeadersAdapter(
+                        this.clientHeaderAdapter.newInstance()).request(this.clientAdaCoreProp, new StringEntity(JSON.toJSONString(proceedingJoinPointArgs[0])), this.responseFactory.newInstance());
+            } else {
+                this.defaultClientInterfaceControllerAda.addClientHeadersAdapter(
+                        this.clientHeaderAdapter.newInstance()).request(this.clientAdaCoreProp, new StringEntity(JSON.toJSONString(proceedingJoinPointArgs[0])), this.responseCls);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -97,9 +106,7 @@ public class AnnotationPointCutExecutor {
      */
 
     private Object[] getProceedingJoinPointArgs(ProceedingJoinPoint currentPoint) {
-        Object[] args = currentPoint.getArgs();
-        logger.info("[执行器] @@{}@@ args={} finished！", currentPoint.getSignature().getDeclaringTypeName(), args);
-        return args;
+        return currentPoint.getArgs();
     }
 
 }

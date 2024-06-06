@@ -56,7 +56,7 @@ public final class DefaultClientInterfaceControllerAda extends AbstractClientInt
     public ClientResponseProp<DefaultClientResponseProp> request(ClientAdaCoreProp clientAdaCoreProp, ImmutableMap<String, Object> params) {
         try {
             ClientResponseProp<DefaultClientResponseProp> clientResponseProp = this.request(clientAdaCoreProp, new StringEntity(JSON.toJSONString(params)), new DefaultClientAdaResponseFactory());
-            this.logger.info("[三方数据请求] 请求响应详细信息 >>> {}", clientResponseProp.toString());
+            this.logger.info("[ClientAda SDK] 请求响应详细信息 >>> {}", clientResponseProp.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -100,7 +100,7 @@ public final class DefaultClientInterfaceControllerAda extends AbstractClientInt
     @Override
     public DefaultClientInterfaceControllerAda addClientHeaders(ClientHeaderProp clientHeaderProp) {
         if (Objects.isNull(clientHeaderProp) || clientHeaderProp.getHeaders().length == 0) {
-            throw new ClientAdaExecuteException("[三方数据请求] >>> header对象不能为null, 请检查....");
+            throw new ClientAdaExecuteException("[ClientAda SDK] >>> header对象不能为null, 请检查....");
         }
         this.headers = clientHeaderProp.getHeaders();
         return this;
