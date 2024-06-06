@@ -27,7 +27,7 @@ public class ClientAdaAutoConfiguration {
     public DefaultClientInterfaceControllerAda init() {
         DefaultClientInterfaceControllerAda controllerAda = new DefaultClientInterfaceControllerAda(clientAdaProperties.getConnectTimeOut(), clientAdaProperties.getSocketTimeOut())
                 .addClientHeadersAdapter(new ClientHeaderAdapter());
-        logger.info("统一客户端请求SDK初始化...\n {}", "");
+        logger.info("clientAda SDK 初始化...\n {}", "");
         return controllerAda;
     }
 }

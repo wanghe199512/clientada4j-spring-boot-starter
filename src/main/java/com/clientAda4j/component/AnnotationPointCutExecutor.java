@@ -85,7 +85,7 @@ public class AnnotationPointCutExecutor {
             if (proceedingJoinPointArgs.length > 1) {
                 throw new ClientAdaExecuteException("适配方法只能有一个请求参数");
             }
-            logger.info("[ClientAda SDK] 请求参数详细信息 >>> {}", proceedingJoinPointArgs);
+            logger.info("[ClientAda SDK] 请求参数 >>> {}", proceedingJoinPointArgs);
             if (Objects.nonNull(this.responseFactory)) {
                 this.defaultClientInterfaceControllerAda.addClientHeadersAdapter(
                         this.clientHeaderAdapter.newInstance()).request(this.clientAdaCoreProp, new StringEntity(JSON.toJSONString(proceedingJoinPointArgs[0])), this.responseFactory.newInstance());
