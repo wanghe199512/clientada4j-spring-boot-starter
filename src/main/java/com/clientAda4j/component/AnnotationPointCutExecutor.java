@@ -27,7 +27,7 @@ import java.util.Objects;
  * @author wanghe
  */
 @Component
-public class AnnotationPointCutExecutor implements Executor {
+public final class AnnotationPointCutExecutor implements Executor {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     /**
