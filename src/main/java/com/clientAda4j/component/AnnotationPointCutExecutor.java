@@ -1,7 +1,7 @@
 package com.clientAda4j.component;
 
 import com.clientAda4j.ClientHeaderAdapter;
-import com.clientAda4j.DefaultClientAdaResponseFactory;
+import com.clientAda4j.IClientAdaResponseFactory;
 import com.clientAda4j.anno.ClientAdaComponent;
 import com.clientAda4j.anno.ClientAdaInterface;
 import com.clientAda4j.controller.DefaultClientInterfaceControllerAda;
@@ -41,7 +41,7 @@ public final class AnnotationPointCutExecutor {
     /**
      * 响应工厂
      */
-    private Class<? extends DefaultClientAdaResponseFactory> responseFactory;
+    private Class<? extends IClientAdaResponseFactory<?>> responseFactory;
 
     @Autowired
     private DefaultClientInterfaceControllerAda defaultClientInterfaceControllerAda;

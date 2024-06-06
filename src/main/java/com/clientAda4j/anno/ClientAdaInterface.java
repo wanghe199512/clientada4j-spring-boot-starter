@@ -33,5 +33,5 @@ public @interface ClientAdaInterface {
     /**
      * 返回结果处理器
      */
-    Class<? extends IClientAdaResponseFactory> responseFactory() default LinkedHashMapClientAdaResponseFactory.class;
+    Class<? extends IClientAdaResponseFactory<?>> responseFactory() default LinkedHashMapClientAdaResponseFactory.class;
 }
