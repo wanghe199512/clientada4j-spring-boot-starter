@@ -1,18 +1,14 @@
 package com.clientAda4j.component;
 
-import com.alibaba.fastjson2.JSON;
 import com.clientAda4j.ClientHeaderAdapter;
 import com.clientAda4j.DefaultClientAdaResponseFactory;
-import com.clientAda4j.Executor;
 import com.clientAda4j.anno.ClientAdaComponent;
 import com.clientAda4j.anno.ClientAdaInterface;
 import com.clientAda4j.controller.DefaultClientInterfaceControllerAda;
 import com.clientAda4j.domain.ClientAdaCoreProp;
 import com.clientAda4j.domain.ClientInterfaceProp;
-import com.clientAda4j.domain.ClientResponseProp;
 import com.clientAda4j.exeption.ClientAdaExecuteException;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.entity.StringEntity;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +23,7 @@ import java.util.Objects;
  * @author wanghe
  */
 @Component
-public final class AnnotationPointCutExecutor implements Executor {
+public final class AnnotationPointCutExecutor {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     /**
@@ -77,19 +73,11 @@ public final class AnnotationPointCutExecutor implements Executor {
     }
 
     /**
-     * 请求执行
+     * 获取请求执行器构建对象
+     *
+     * @return ExecutorBuilder
      */
-    @Override
-    public ClientResponseProp<?> execute(Object proceedingArgs) {
-        try {
-            if (Objects.nonNull(this.responseFactory)) {
-                return this.defaultClientInterfaceControllerAda.addClientHeadersAdapter(this.clientHeaderAdapter.newInstance()).request(this.clientAdaCoreProp, new StringEntity(JSON.toJSONString(proceedingArgs)), this.responseFactory.newInstance());
-            } else {
-                return this.defaultClientInterfaceControllerAda.addClientHeadersAdapter(this.clientHeaderAdapter.newInstance()).request(this.clientAdaCoreProp, new StringEntity(JSON.toJSONString(proceedingArgs)), this.responseCls);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    public ExecutorBuilder getExecutorBuilder() {
+        return new ExecutorBuilder(this.clientAdaCoreProp, this.clientHeaderAdapter, this.responseCls, this.responseFactory, this.defaultClientInterfaceControllerAda);
     }
 }

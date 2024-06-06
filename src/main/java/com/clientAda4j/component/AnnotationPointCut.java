@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
-public class AnnotationPointCut {
+public final class AnnotationPointCut {
 
     @Autowired
     private AnnotationPointCutExecutor executor;
@@ -25,5 +25,14 @@ public class AnnotationPointCut {
     @Around(value = "@annotation(clientAdaInterface)")
     public Object clientAdaInterfacePoint(ProceedingJoinPoint currentPoint, ClientAdaInterface clientAdaInterface) throws Throwable {
         return this.executor.process(currentPoint, clientAdaInterface);
+    }
+
+    /**
+     * 获取请求执行器构建对象
+     *
+     * @return ExecutorBuilder
+     */
+    public ExecutorBuilder getExecutorBuilder() {
+        return this.executor.getExecutorBuilder();
     }
 }
