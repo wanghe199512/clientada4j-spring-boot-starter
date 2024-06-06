@@ -2,7 +2,6 @@ package com.clientAda4j.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.TypeReference;
 import com.clientAda4j.ClientHeaderAdapter;
 import com.clientAda4j.DefaultClientAdaResponseFactory;
 import com.clientAda4j.IClientAdaResponseFactory;
@@ -12,8 +11,6 @@ import com.clientAda4j.exeption.ClientAdaExecuteException;
 import com.google.common.collect.ImmutableMap;
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.StringEntity;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;
 import java.util.Objects;
@@ -23,8 +20,6 @@ import java.util.Objects;
  *
  * @author wanghe
  */
-@Component
-@ConditionalOnProperty(prefix = "clientada4j", name = "enabled", havingValue = "true")
 public final class DefaultClientInterfaceControllerAda extends AbstractClientInterfaceAda {
 
     public DefaultClientInterfaceControllerAda(int connectTime, int socketTime) {

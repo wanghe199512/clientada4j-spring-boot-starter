@@ -76,7 +76,7 @@ public abstract class AbstractClientInterfaceAda implements IClientInterface, Se
             throw new ClientAdaExecuteException("[三方数据请求] >>> 接口参数对象有误");
         }
         logger.info("[三方数据请求] 请求参数详细信息 >>> {}", requestObj.toString());
-        return this.executeUri(this.createPost(clientAdaCoreProp.getClientUri(), clientInterface), requestObj);
+        return this.executeUri(this.createPost(clientAdaCoreProp.getCompleteUrl(), clientInterface), requestObj);
     }
 
     /**

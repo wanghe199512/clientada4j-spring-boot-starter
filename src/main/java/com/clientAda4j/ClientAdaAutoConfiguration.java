@@ -4,22 +4,30 @@ import com.clientAda4j.component.ClientAdaProperties;
 import com.clientAda4j.controller.DefaultClientInterfaceControllerAda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@ComponentScan("com.clientAda4j.*")
 @EnableConfigurationProperties({ClientAdaProperties.class})
+@ConditionalOnProperty(prefix = "clientada4j", name = "enabled", havingValue = "true")
 public class ClientAdaAutoConfiguration {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private ClientAdaProperties clientAdaProperties;
+    private final ClientAdaProperties clientAdaProperties;
+
+    public ClientAdaAutoConfiguration(ClientAdaProperties clientAdaProperties) {
+        this.clientAdaProperties = clientAdaProperties;
+    }
 
     @Bean
     public DefaultClientInterfaceControllerAda init() {
         DefaultClientInterfaceControllerAda controllerAda = new DefaultClientInterfaceControllerAda(clientAdaProperties.getConnectTimeOut(), clientAdaProperties.getSocketTimeOut())
                 .addClientHeadersAdapter(new ClientHeaderAdapter());
-        logger.info("clientAda[{}] initial success", clientAdaProperties);
+        logger.info("统一客户端请求SDK初始化...\n {}", "");
         return controllerAda;
     }
 }

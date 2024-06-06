@@ -23,13 +23,21 @@ import java.util.Objects;
 public class AnnotationPointCutExecutor {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
+    /**
+     * 核心请求参数对象
+     */
     private ClientAdaCoreProp clientAdaCoreProp;
-
+    /**
+     * 自定义头部处理器
+     */
     private Class<? extends ClientHeaderAdapter> clientHeaderAdapter;
-
+    /**
+     * 请求响应Class
+     */
     private Class<?> responseCls;
-
+    /**
+     * 响应工厂
+     */
     private Class<? extends DefaultClientAdaResponseFactory> responseFactory;
 
     @Autowired
@@ -39,7 +47,7 @@ public class AnnotationPointCutExecutor {
      * 处理方法注解
      */
     public Object process(ProceedingJoinPoint currentPoint, ClientAdaComponent clientAdaComponent) throws Throwable {
-        this.clientAdaCoreProp = new ClientAdaCoreProp().setClientId(clientAdaCoreProp.getClientId()).setClientName(clientAdaComponent.clientName())
+        this.clientAdaCoreProp = new ClientAdaCoreProp().setClientId(clientAdaComponent.clientId()).setClientName(clientAdaComponent.clientName())
                 .setClientPort(clientAdaComponent.clientPort()).setClientUri(clientAdaComponent.clientUrl());
         this.clientHeaderAdapter = clientAdaComponent.clientHeaderAdapter();
         return currentPoint.proceed();
@@ -72,8 +80,11 @@ public class AnnotationPointCutExecutor {
             if (args.length > 1) {
                 throw new ClientAdaExecuteException("适配方法只能有一个请求参数,执行已终止...");
             }
-            ClientResponseProp<?> request = this.defaultClientInterfaceControllerAda
-                    .addClientHeadersAdapter(this.clientHeaderAdapter.newInstance()).request(this.clientAdaCoreProp, new StringEntity(args[0].toString()), this.responseCls);
+            if(Objects.nonNull(this.responseFactory)){
+                this.defaultClientInterfaceControllerAda.addClientHeadersAdapter(this.clientHeaderAdapter.newInstance()).request(this.clientAdaCoreProp, new StringEntity(args[0].toString()), this.responseFactory.newInstance());
+            }else{
+                this.defaultClientInterfaceControllerAda.addClientHeadersAdapter(this.clientHeaderAdapter.newInstance()).request(this.clientAdaCoreProp, new StringEntity(args[0].toString()), this.responseCls);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

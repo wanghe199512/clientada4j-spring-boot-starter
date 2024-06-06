@@ -102,11 +102,11 @@ public class ClientAdaCoreProp {
      */
     public String getCompleteUrl() {
         if (StringUtils.isEmpty(this.clientPort) || StringUtils.isEmpty(this.clientUri)) {
-            throw new ClientAdaExecuteException("URL,端口号无效，请检查或重新配置");
+            throw new ClientAdaExecuteException("clientPort or clientUri must be a value");
         }
-        if (!this.clientUri.startsWith("http") || !this.clientUri.startsWith("https")) {
-            throw new ClientAdaExecuteException("无效的链接[以HTTP或HTTPS开头]");
+        if (!(this.clientUri.startsWith("http") || this.clientUri.startsWith("https"))) {
+            throw new ClientAdaExecuteException("invalid links");
         }
-        return String.format("%s/:%s/", this.clientUri, this.clientPort);
+        return String.format("%s:%s/", this.clientUri, this.clientPort);
     }
 }

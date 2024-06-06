@@ -52,4 +52,12 @@ public class ClientAdaProperties {
         this.socketTimeOut = socketTimeOut;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "connectTimeOut=" + connectTimeOut +
+                ", socketTimeOut=" + socketTimeOut +
+                '}';
+    }
 }
