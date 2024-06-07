@@ -2,6 +2,7 @@ package com.clientAda4j.component;
 
 import com.clientAda4j.ClientHeaderAdapter;
 import com.clientAda4j.IClientAdaResponseFactory;
+import com.clientAda4j.IClientHeaderAdapter;
 import com.clientAda4j.anno.ClientAdaComponent;
 import com.clientAda4j.anno.ClientAdaInterface;
 import com.clientAda4j.domain.ClientAdaCoreProp;
@@ -25,7 +26,7 @@ public class AnnotationPointCutExecutor {
     /**
      * 自定义头部处理器
      */
-    protected Class<? extends ClientHeaderAdapter> clientHeaderAdapter;
+    protected Class<? extends IClientHeaderAdapter> clientHeaderAdapter;
     /**
      * 响应工厂
      */

@@ -2,6 +2,7 @@ package com.clientAda4j.component;
 
 import com.clientAda4j.ClientHeaderAdapter;
 import com.clientAda4j.IClientAdaResponseFactory;
+import com.clientAda4j.IClientHeaderAdapter;
 import com.clientAda4j.controller.DefaultClientInterfaceControllerAda;
 import com.clientAda4j.domain.ClientAdaCoreProp;
 
@@ -12,13 +13,13 @@ public final class ExecutorBuilder {
 
     private ClientAdaCoreProp clientAdaCoreProp;
 
-    private Class<? extends ClientHeaderAdapter> clientHeaderAdapter;
+    private Class<? extends IClientHeaderAdapter> clientHeaderAdapter;
 
     private Class<? extends IClientAdaResponseFactory<?>> responseFactory;
 
     private DefaultClientInterfaceControllerAda defaultClientInterfaceControllerAda;
 
-    public ExecutorBuilder(ClientAdaCoreProp clientAdaCoreProp, Class<? extends ClientHeaderAdapter> clientHeaderAdapter, Class<? extends IClientAdaResponseFactory<?>> responseFactory, DefaultClientInterfaceControllerAda defaultClientInterfaceControllerAda) {
+    public ExecutorBuilder(ClientAdaCoreProp clientAdaCoreProp, Class<? extends IClientHeaderAdapter> clientHeaderAdapter, Class<? extends IClientAdaResponseFactory<?>> responseFactory, DefaultClientInterfaceControllerAda defaultClientInterfaceControllerAda) {
         this.clientAdaCoreProp = clientAdaCoreProp;
         this.clientHeaderAdapter = clientHeaderAdapter;
         this.responseFactory = responseFactory;
@@ -33,7 +34,7 @@ public final class ExecutorBuilder {
         this.clientAdaCoreProp = clientAdaCoreProp;
     }
 
-    public Class<? extends ClientHeaderAdapter> getClientHeaderAdapter() {
+    public Class<? extends IClientHeaderAdapter> getClientHeaderAdapter() {
         return clientHeaderAdapter;
     }
 
