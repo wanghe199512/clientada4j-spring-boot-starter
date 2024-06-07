@@ -25,7 +25,8 @@ public class ClientAdaAutoConfiguration {
 
     @Bean
     public DefaultClientInterfaceControllerAda init() {
-        DefaultClientInterfaceControllerAda controllerAda = new DefaultClientInterfaceControllerAda(clientAdaProperties.getConnectTimeOut(), clientAdaProperties.getSocketTimeOut());
+        DefaultClientInterfaceControllerAda controllerAda = new DefaultClientInterfaceControllerAda(
+                clientAdaProperties.getConnectTimeOut(), clientAdaProperties.getSocketTimeOut(), clientAdaProperties.getPoolingConnectionMaxTotal(), clientAdaProperties.getDefaultMaxPerRouteTotal());
         logger.info("clientAda SDK 初始化...\n {}", "");
         return controllerAda;
     }

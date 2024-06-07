@@ -22,9 +22,11 @@ import java.util.Objects;
  */
 public final class DefaultClientInterfaceControllerAda extends AbstractClientInterfaceAda {
 
-    public DefaultClientInterfaceControllerAda(int connectTime, int socketTime) {
-        this.connectTime = connectTime;
-        this.socketTime = socketTime;
+    public DefaultClientInterfaceControllerAda(int connectTimeOut, int socketTimeOut, int poolingConnectionMaxTotal, int defaultMaxPerRouteTotal) {
+        this.connectTimeOut = connectTimeOut;
+        this.socketTimeOut = socketTimeOut;
+        this.poolingConnectionMaxTotal = poolingConnectionMaxTotal;
+        this.defaultMaxPerRouteTotal = defaultMaxPerRouteTotal;
     }
 
     /**

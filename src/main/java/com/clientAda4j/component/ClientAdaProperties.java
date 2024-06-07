@@ -17,14 +17,21 @@ public class ClientAdaProperties {
      */
     private boolean enabled = false;
     /**
-     * 请求连接超时
+     * 连接超时
      */
     private int connectTimeOut = 50000;
     /**
-     * 请求响应超时
+     * 响应超时
      */
-    private int socketTimeOut = 50000;
-
+    private int socketTimeOut = 5000000;
+    /**
+     * 最大连接数
+     */
+    private int poolingConnectionMaxTotal = 500;
+    /**
+     * 每个路由默认最大连接数
+     */
+    private int defaultMaxPerRouteTotal = 50;
 
     public boolean getEnabled() {
         return enabled;
@@ -53,11 +60,31 @@ public class ClientAdaProperties {
         return this;
     }
 
+    public int getPoolingConnectionMaxTotal() {
+        return poolingConnectionMaxTotal;
+    }
+
+    public ClientAdaProperties setPoolingConnectionMaxTotal(int poolingConnectionMaxTotal) {
+        this.poolingConnectionMaxTotal = poolingConnectionMaxTotal;
+        return this;
+    }
+
+    public int getDefaultMaxPerRouteTotal() {
+        return defaultMaxPerRouteTotal;
+    }
+
+    public ClientAdaProperties setDefaultMaxPerRouteTotal(int defaultMaxPerRouteTotal) {
+        this.defaultMaxPerRouteTotal = defaultMaxPerRouteTotal;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "{" +
-                "connectTimeOut=" + connectTimeOut +
-                ", socketTimeOut=" + socketTimeOut +
+                " 连接超时=" + connectTimeOut +
+                ", 响应超时=" + socketTimeOut +
+                ", 最大连接数=" + poolingConnectionMaxTotal +
+                ", 每个路由默认最大连接数=" + defaultMaxPerRouteTotal +
                 '}';
     }
 }

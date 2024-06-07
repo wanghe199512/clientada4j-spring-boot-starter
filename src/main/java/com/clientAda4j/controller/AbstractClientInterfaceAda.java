@@ -1,7 +1,6 @@
 package com.clientAda4j.controller;
 
 import com.clientAda4j.domain.ClientAdaCoreProp;
-import com.clientAda4j.domain.ClientHeaderProp;
 import com.clientAda4j.domain.ClientInterfaceProp;
 import com.clientAda4j.exeption.ClientAdaExecuteException;
 import com.google.common.collect.ImmutableMap;
@@ -15,18 +14,21 @@ import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
+ * httpclient封装
+ *
  * @author 王贺
  * @email 1280381827@qq.com
  */
@@ -35,15 +37,36 @@ public abstract class AbstractClientInterfaceAda implements IClientInterface, Se
     /**
      * 连接超时
      */
-    protected int connectTime = 8 * 1000;
+    protected int connectTimeOut;
     /**
      * 请求超时
      */
-    protected int socketTime = 10000;
+    protected int socketTimeOut;
+
+    /**
+     * 最大连接数
+     */
+    protected int poolingConnectionMaxTotal;
+    /**
+     * 每个路由默认最大连接数
+     */
+    protected int defaultMaxPerRouteTotal;
     /**
      * 请求头
      */
     protected BasicHeader[] headers;
+    /**
+     * 连接池
+     */
+    private final PoolingHttpClientConnectionManager manager;
+
+    public AbstractClientInterfaceAda() {
+        this.manager = new PoolingHttpClientConnectionManager(
+                RegistryBuilder.<ConnectionSocketFactory>create().register("http", PlainConnectionSocketFactory.getSocketFactory())
+                        .register("https", SSLConnectionSocketFactory.getSocketFactory()).build());
+        this.manager.setMaxTotal(this.poolingConnectionMaxTotal); // 增加最大总连接数
+        this.manager.setDefaultMaxPerRoute(this.defaultMaxPerRouteTotal); // 增加每个路由的默认最大连接数
+    }
 
     /**
      * 创建请求对象
@@ -54,7 +77,7 @@ public abstract class AbstractClientInterfaceAda implements IClientInterface, Se
      */
     protected final HttpPost createPost(String domainUrl, ClientInterfaceProp clientInterfaceProp) {
         HttpPost httpPost = new HttpPost(String.format("%s/%s", domainUrl, clientInterfaceProp.getInterfaceUri()));
-        httpPost.setConfig(RequestConfig.custom().setSocketTimeout(this.socketTime).setConnectTimeout(this.connectTime).build());
+        httpPost.setConfig(RequestConfig.custom().setSocketTimeout(this.socketTimeOut).setConnectTimeout(this.connectTimeOut).build());
         httpPost.setHeaders(this.headers);
         logger.info("[ClientAda SDK] Preparing: >> 请求地址: {} , 请求头: {}", domainUrl, httpPost.getAllHeaders());
         return httpPost;
@@ -68,11 +91,11 @@ public abstract class AbstractClientInterfaceAda implements IClientInterface, Se
      */
     protected final String executeUri(ClientAdaCoreProp clientAdaCoreProp, HttpEntity requestObj) {
         if (Objects.isNull(clientAdaCoreProp)) {
-            throw new ClientAdaExecuteException("[ClientAda SDK] >>> 未获取到有效参数构建对象");
+            throw new ClientAdaExecuteException("未获取到有效参数构建对象");
         }
         ClientInterfaceProp clientInterface = clientAdaCoreProp.getClientInterface();
         if (Objects.isNull(clientInterface)) {
-            throw new ClientAdaExecuteException("[ClientAda SDK] >>> 未获取到有效接口参数对象");
+            throw new ClientAdaExecuteException("未获取到有效接口参数对象");
         }
         return this.executeUri(this.createPost(clientAdaCoreProp.getCompleteUrl(), clientInterface), requestObj);
     }
@@ -86,12 +109,10 @@ public abstract class AbstractClientInterfaceAda implements IClientInterface, Se
      */
     protected final String executeUri(HttpPost httpPost, HttpEntity requestObj) {
         try {
-            BasicHttpClientConnectionManager connManager = new BasicHttpClientConnectionManager(RegistryBuilder.<ConnectionSocketFactory>create().register("http", PlainConnectionSocketFactory.getSocketFactory())
-                    .register("https", SSLConnectionSocketFactory.getSocketFactory()).build(), null, null, null);
-            HttpClient httpClient = HttpClientBuilder.create().setConnectionManager(connManager).build();
+            HttpClient httpClient = HttpClientBuilder.create().setConnectionManager(this.manager).build();
             httpPost.setEntity(requestObj);
             HttpResponse httpResponse = httpClient.execute(httpPost);
-            return EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
+            return EntityUtils.toString(httpResponse.getEntity(), StandardCharsets.UTF_8);
         } catch (Exception e) {
             logger.error("执行远程请求时发生了错误...", e);
         }
