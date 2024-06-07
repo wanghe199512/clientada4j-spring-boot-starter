@@ -13,12 +13,12 @@ public @interface ClientAdaInterface {
     /**
      * 接口名称
      */
-    String interfaceName() default "";
+    String interfaceName();
 
     /**
      * 接口ID
      */
-    String interfaceId();
+    String interfaceId() default "";
 
     /**
      * 接口地址
