@@ -25,21 +25,19 @@ public interface Executor {
     /**
      * 自定义执行可直接请求的API
      *
-     * @param clientUrl    主请求地址
-     * @param interfaceUri 接口地址
+     * @param domainUrl    主请求地址
      * @param args         请求参数
      * @return ClientResponseProp<LinkedHashMap < String, Object>>
      */
-    ClientResponseProp<LinkedHashMap<String, Object>> executeBasicUri(String clientUrl, String interfaceUri, ImmutableMap<String, Object> args);
+    ClientResponseProp<LinkedHashMap<String, Object>> executeBasicUrl(String domainUrl, ImmutableMap<String, Object> args);
 
     /**
      * 自定义执行可直接请求的API
      *
-     * @param clientUrl    主请求地址
-     * @param interfaceUri 接口地址
+     * @param domainUrl    主请求地址
      * @param args         请求参数
      * @param responseCls  指定返回实体
      * @return ClientResponseProp<LinkedHashMap < String, Object>>
      */
-    <E> ClientResponseProp<E> executeBasicUri(String clientUrl, String interfaceUri, ImmutableMap<String, Object> args, Class<E> responseCls);
+    <E> ClientResponseProp<E> executeBasicUrlResponseCls(String domainUrl, ImmutableMap<String, Object> args, Class<E> responseCls);
 }
