@@ -1,6 +1,9 @@
 package com.clientAda4j;
 
 import com.clientAda4j.domain.ClientResponseProp;
+import com.google.common.collect.ImmutableMap;
+
+import java.util.LinkedHashMap;
 
 public interface Executor {
     /**
@@ -18,4 +21,14 @@ public interface Executor {
      * @return ClientResponseProp<LinkedHashMap < String, Object>>
      */
     <E> ClientResponseProp<E> executeResponseCls(Object args, Class<E> responseCls);
+
+    /**
+     * 自定义执行可直接请求的API
+     *
+     * @param clientUrl    主请求地址
+     * @param interfaceUri 接口地址
+     * @param args         请求参数
+     * @return ClientResponseProp<LinkedHashMap<String, Object>>
+     */
+    ClientResponseProp<LinkedHashMap<String, Object>> executeBasicUri(String clientUrl, String interfaceUri, ImmutableMap<String, Object> args);
 }
