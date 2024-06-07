@@ -32,7 +32,7 @@ public class ClientAdaClaimExecutor implements Executor {
         ExecutorBuilder executorObj = this.executor.getExecutorBuilder();
         try {
             if (Objects.isNull(executorObj.getResponseFactory())) {
-                throw new ClientAdaExecuteException("[ClientAda SDK] 基于响应工厂的执行函数，必须配置[responseFactory]...");
+                throw new ClientAdaExecuteException("[ClientAda SDK] 基于响应工厂的执行函数，必须配置在注解@ClientAdaInterface中配置responseFactory");
             }
             return executorObj.getDefaultClientInterfaceControllerAda()
                     .addClientHeadersAdapter(executorObj.getClientHeaderAdapter().newInstance()).request(executorObj.getClientAdaCoreProp(), new StringEntity(JSON.toJSONString(args)), executorObj.getResponseFactory());
