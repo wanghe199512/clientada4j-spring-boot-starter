@@ -23,15 +23,15 @@ public class ClientAdaProperties {
     /**
      * 响应超时
      */
-    private int socketTimeOut = 5000000;
+    private int socketTimeOut = 50000;
     /**
      * 最大连接数
      */
-    private int poolingConnectionMaxTotal = 500;
+    private int poolingConnectionMaxTotal = 4;
     /**
      * 每个路由默认最大连接数
      */
-    private int defaultMaxPerRouteTotal = 50;
+    private int defaultMaxPerRouteTotal = 2;
 
     public boolean getEnabled() {
         return enabled;

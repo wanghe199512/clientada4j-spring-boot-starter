@@ -23,8 +23,6 @@ import java.util.Objects;
  * @author wanghe
  */
 public class AnnotationPointCutExecutor {
-
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
     /**
      * 核心请求参数对象
      */

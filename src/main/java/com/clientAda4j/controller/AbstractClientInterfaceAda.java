@@ -37,7 +37,7 @@ public abstract class AbstractClientInterfaceAda implements IClientInterface, Se
     /**
      * 连接超时
      */
-    protected int connectTimeOut;
+    protected int connectionTimeOut;
     /**
      * 请求超时
      */
@@ -46,11 +46,11 @@ public abstract class AbstractClientInterfaceAda implements IClientInterface, Se
     /**
      * 最大连接数
      */
-    protected int poolingConnectionMaxTotal;
+    protected int poolingConnectionMaxTotal = 4;
     /**
      * 每个路由默认最大连接数
      */
-    protected int defaultMaxPerRouteTotal;
+    protected int defaultMaxPerRouteTotal = 2;
     /**
      * 请求头
      */
@@ -77,7 +77,7 @@ public abstract class AbstractClientInterfaceAda implements IClientInterface, Se
      */
     protected final HttpPost createPost(String domainUrl, ClientInterfaceProp clientInterfaceProp) {
         HttpPost httpPost = new HttpPost(String.format("%s/%s", domainUrl, clientInterfaceProp.getInterfaceUri()));
-        httpPost.setConfig(RequestConfig.custom().setSocketTimeout(this.socketTimeOut).setConnectTimeout(this.connectTimeOut).build());
+        httpPost.setConfig(RequestConfig.custom().setSocketTimeout(this.socketTimeOut).setConnectTimeout(this.connectionTimeOut).build());
         httpPost.setHeaders(this.headers);
         logger.info("[ClientAda SDK] Preparing: >> 请求地址: {} , 请求头: {}", domainUrl, httpPost.getAllHeaders());
         return httpPost;
@@ -111,8 +111,11 @@ public abstract class AbstractClientInterfaceAda implements IClientInterface, Se
         try {
             HttpClient httpClient = HttpClientBuilder.create().setConnectionManager(this.manager).build();
             httpPost.setEntity(requestObj);
-            HttpResponse httpResponse = httpClient.execute(httpPost);
-            return EntityUtils.toString(httpResponse.getEntity(), StandardCharsets.UTF_8);
+            HttpResponse response = httpClient.execute(httpPost);
+            if (response.getStatusLine().getStatusCode() != 200) {
+                throw new ClientAdaExecuteException(String.format("[%s]无法请求此接口....", httpPost.getRequestLine().getUri()));
+            }
+            return EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
         } catch (Exception e) {
             logger.error("执行远程请求时发生了错误...", e);
         }
