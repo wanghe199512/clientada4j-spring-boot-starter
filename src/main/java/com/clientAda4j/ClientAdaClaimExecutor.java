@@ -1,5 +1,6 @@
 package com.clientAda4j;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.fastjson2.JSON;
 import com.clientAda4j.component.AnnotationPointCut;
 import com.clientAda4j.component.ExecutorBuilder;
@@ -81,6 +82,20 @@ public class ClientAdaClaimExecutor implements Executor {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 自定义执行可直接请求的API
+     *
+     * @param clientUrl    主请求地址
+     * @param interfaceUri 接口地址
+     * @param args         请求参数
+     * @param responseCls  指定返回实体
+     * @return ClientResponseProp<LinkedHashMap < String, Object>>
+     */
+    @Override
+    public <E> ClientResponseProp<E> executeBasicUri(String clientUrl, String interfaceUri, ImmutableMap<String, Object> args, Class<E> responseCls) {
+        return new ClientResponseProp<E>(BeanUtil.toBean(this.executeBasicUri(clientUrl, interfaceUri, args), responseCls));
     }
 
 }
