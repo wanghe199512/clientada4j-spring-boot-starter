@@ -14,16 +14,13 @@ public final class ExecutorBuilder {
 
     private Class<? extends ClientHeaderAdapter> clientHeaderAdapter;
 
-    private Class<?> responseCls;
-
     private Class<? extends IClientAdaResponseFactory<?>> responseFactory;
 
     private DefaultClientInterfaceControllerAda defaultClientInterfaceControllerAda;
 
-    public ExecutorBuilder(ClientAdaCoreProp clientAdaCoreProp, Class<? extends ClientHeaderAdapter> clientHeaderAdapter, Class<?> responseCls, Class<? extends IClientAdaResponseFactory<?>> responseFactory, DefaultClientInterfaceControllerAda defaultClientInterfaceControllerAda) {
+    public ExecutorBuilder(ClientAdaCoreProp clientAdaCoreProp, Class<? extends ClientHeaderAdapter> clientHeaderAdapter, Class<? extends IClientAdaResponseFactory<?>> responseFactory, DefaultClientInterfaceControllerAda defaultClientInterfaceControllerAda) {
         this.clientAdaCoreProp = clientAdaCoreProp;
         this.clientHeaderAdapter = clientHeaderAdapter;
-        this.responseCls = responseCls;
         this.responseFactory = responseFactory;
         this.defaultClientInterfaceControllerAda = defaultClientInterfaceControllerAda;
     }
@@ -42,14 +39,6 @@ public final class ExecutorBuilder {
 
     public void setClientHeaderAdapter(Class<? extends ClientHeaderAdapter> clientHeaderAdapter) {
         this.clientHeaderAdapter = clientHeaderAdapter;
-    }
-
-    public Class<?> getResponseCls() {
-        return responseCls;
-    }
-
-    public void setResponseCls(Class<?> responseCls) {
-        this.responseCls = responseCls;
     }
 
     public Class<? extends IClientAdaResponseFactory<?>> getResponseFactory() {

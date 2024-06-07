@@ -1,6 +1,7 @@
 package com.clientAda4j.controller;
 
 import com.clientAda4j.domain.ClientAdaCoreProp;
+import com.clientAda4j.domain.ClientHeaderProp;
 import com.clientAda4j.domain.ClientInterfaceProp;
 import com.clientAda4j.exeption.ClientAdaExecuteException;
 import com.google.common.collect.ImmutableMap;
@@ -90,9 +91,7 @@ public abstract class AbstractClientInterfaceAda implements IClientInterface, Se
             HttpClient httpClient = HttpClientBuilder.create().setConnectionManager(connManager).build();
             httpPost.setEntity(requestObj);
             HttpResponse httpResponse = httpClient.execute(httpPost);
-            String responseString = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
-            logger.info("[ClientAda SDK] 原始响应 >>> {}", responseString);
-            return responseString;
+            return EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
         } catch (Exception e) {
             logger.error("执行远程请求时发生了错误...", e);
         }

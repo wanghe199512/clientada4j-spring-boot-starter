@@ -9,10 +9,10 @@ import com.clientAda4j.domain.DefaultClientResponseProp;
  *
  * @author wanghe
  */
-public class DefaultClientAdaResponseFactory implements IClientAdaResponseFactory<DefaultClientResponseProp> {
+public class DefaultClientAdaResponseFactory<E> implements IClientAdaResponseFactory<E> {
     @Override
-    public DefaultClientResponseProp process(String response) {
-        return JSON.parseObject(response, new TypeReference<DefaultClientResponseProp>() {
+    public E process(String response) {
+        return JSON.parseObject(response, new TypeReference<E>() {
         });
     }
 }

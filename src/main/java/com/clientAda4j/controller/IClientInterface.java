@@ -35,7 +35,7 @@ public interface IClientInterface {
      * @param interfaceUri 接口url
      * @param params       请求参数
      */
-    ClientResponseProp<LinkedHashMap<String, Object>> get(String clientUrl, String interfaceUri, ImmutableMap<String, Object> params);
+    ClientResponseProp<LinkedHashMap<String, Object>> request(String clientUrl, String interfaceUri, ImmutableMap<String, Object> params);
 
 
     /**

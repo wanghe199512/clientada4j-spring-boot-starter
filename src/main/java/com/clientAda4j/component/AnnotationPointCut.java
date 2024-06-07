@@ -3,6 +3,8 @@ package com.clientAda4j.component;
 import com.clientAda4j.anno.ClientAdaComponent;
 import com.clientAda4j.anno.ClientAdaInterface;
 import com.clientAda4j.controller.DefaultClientInterfaceControllerAda;
+import com.clientAda4j.domain.ClientHeaderProp;
+import org.apache.http.message.BasicHeader;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -33,6 +35,6 @@ public final class AnnotationPointCut extends AnnotationPointCutExecutor {
      * @return ExecutorBuilder
      */
     public ExecutorBuilder getExecutorBuilder() {
-        return new ExecutorBuilder(this.clientAdaCoreProp, this.clientHeaderAdapter, this.responseCls, this.responseFactory, this.defaultClientInterfaceControllerAda);
+        return new ExecutorBuilder(this.clientAdaCoreProp, this.clientHeaderAdapter, this.responseFactory, this.defaultClientInterfaceControllerAda);
     }
 }

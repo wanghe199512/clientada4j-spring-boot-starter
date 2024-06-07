@@ -11,6 +11,7 @@ import com.clientAda4j.exeption.ClientAdaExecuteException;
 import com.google.common.collect.ImmutableMap;
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.message.BasicHeader;
 
 import java.util.LinkedHashMap;
 import java.util.Objects;
@@ -34,7 +35,7 @@ public final class DefaultClientInterfaceControllerAda extends AbstractClientInt
      * @param params    请求参数
      */
     @Override
-    public ClientResponseProp<LinkedHashMap<String, Object>> get(String clientUrl, String interfaceUri, ImmutableMap<String, Object> params) {
+    public ClientResponseProp<LinkedHashMap<String, Object>> request(String clientUrl, String interfaceUri, ImmutableMap<String, Object> params) {
         ClientResponseProp<LinkedHashMap<String, Object>> clientResponseProp = new ClientResponseProp<>();
         try {
             clientResponseProp.setResponse(new LinkedHashMapClientAdaResponseFactory().process(this.executeUri(this.createPost(clientUrl,
@@ -55,7 +56,7 @@ public final class DefaultClientInterfaceControllerAda extends AbstractClientInt
     @Override
     public ClientResponseProp<DefaultClientResponseProp> request(ClientAdaCoreProp clientAdaCoreProp, ImmutableMap<String, Object> params) {
         try {
-            ClientResponseProp<DefaultClientResponseProp> clientResponseProp = this.request(clientAdaCoreProp, new StringEntity(JSON.toJSONString(params)), new DefaultClientAdaResponseFactory());
+            ClientResponseProp<DefaultClientResponseProp> clientResponseProp = this.request(clientAdaCoreProp, new StringEntity(JSON.toJSONString(params)), new DefaultClientAdaResponseFactory<>());
             this.logger.info("[ClientAda SDK] 请求响应详细信息 >>> {}", clientResponseProp.toString());
         } catch (Exception e) {
             e.printStackTrace();
@@ -73,7 +74,10 @@ public final class DefaultClientInterfaceControllerAda extends AbstractClientInt
      */
     @Override
     public <E> ClientResponseProp<E> request(ClientAdaCoreProp clientAdaCoreProp, HttpEntity requestObj, Class<E> cls) {
-        return new ClientResponseProp<E>(BeanUtil.toBean(this.executeUri(clientAdaCoreProp, requestObj), cls));
+        if (Objects.isNull(cls)) {
+            throw new ClientAdaExecuteException("[ClientAda SDK] 响应实体类型[cls] 不能为null");
+        }
+        return this.request(clientAdaCoreProp, requestObj, new DefaultClientAdaResponseFactory<E>());
     }
 
     /**
@@ -118,4 +122,9 @@ public final class DefaultClientInterfaceControllerAda extends AbstractClientInt
     public <E extends ClientHeaderAdapter> DefaultClientInterfaceControllerAda addClientHeadersAdapter(E e) {
         return this.addClientHeaders(new ClientHeaderProp(e.handler()));
     }
+
+    public BasicHeader[] getHeaders() {
+        return headers;
+    }
+
 }

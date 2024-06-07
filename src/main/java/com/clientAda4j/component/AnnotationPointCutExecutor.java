@@ -34,10 +34,6 @@ public class AnnotationPointCutExecutor {
      */
     protected Class<? extends ClientHeaderAdapter> clientHeaderAdapter;
     /**
-     * 请求响应Class
-     */
-    protected Class<?> responseCls;
-    /**
      * 响应工厂
      */
     protected Class<? extends IClientAdaResponseFactory<?>> responseFactory;
@@ -63,7 +59,6 @@ public class AnnotationPointCutExecutor {
             throw new ClientAdaExecuteException("未找到@ClientAdaComponent注解或@ClientAdaComponent,执行失败!!");
         }
         this.responseFactory = clientAdaInterface.responseFactory();
-        this.responseCls = clientAdaInterface.responseCls();
         this.clientAdaCoreProp.setClientInterface(new ClientInterfaceProp(clientAdaInterface.interfaceName(), clientAdaInterface.interfaceId(), clientAdaInterface.interfaceUri()));
         return currentPoint.proceed();
     }
