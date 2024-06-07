@@ -4,16 +4,11 @@ import com.clientAda4j.ClientHeaderAdapter;
 import com.clientAda4j.IClientAdaResponseFactory;
 import com.clientAda4j.anno.ClientAdaComponent;
 import com.clientAda4j.anno.ClientAdaInterface;
-import com.clientAda4j.controller.DefaultClientInterfaceControllerAda;
 import com.clientAda4j.domain.ClientAdaCoreProp;
 import com.clientAda4j.domain.ClientInterfaceProp;
 import com.clientAda4j.exeption.ClientAdaExecuteException;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 

@@ -1,10 +1,7 @@
 package com.clientAda4j.controller;
 
 import com.alibaba.fastjson2.JSON;
-import com.clientAda4j.ClientHeaderAdapter;
-import com.clientAda4j.DefaultClientAdaResponseFactory;
-import com.clientAda4j.IClientAdaResponseFactory;
-import com.clientAda4j.LinkedHashMapClientAdaResponseFactory;
+import com.clientAda4j.*;
 import com.clientAda4j.domain.*;
 import com.clientAda4j.exeption.ClientAdaExecuteException;
 import com.google.common.collect.ImmutableMap;
@@ -119,8 +116,8 @@ public final class DefaultClientInterfaceControllerAda extends AbstractClientInt
      * @return this
      */
     @Override
-    public <E extends ClientHeaderAdapter> DefaultClientInterfaceControllerAda addClientHeadersAdapter(E e) {
-        return this.addClientHeaders(new ClientHeaderProp(e.handler()));
+    public <E extends IClientHeaderAdapter> DefaultClientInterfaceControllerAda addClientHeadersAdapter(E e) {
+        return this.addClientHeaders(new ClientHeaderProp(e.adapter()));
     }
 
     public BasicHeader[] getHeaders() {
