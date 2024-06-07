@@ -22,34 +22,30 @@ import java.util.Objects;
  *
  * @author wanghe
  */
-@Component
-public final class AnnotationPointCutExecutor {
+public class AnnotationPointCutExecutor {
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
     /**
      * 核心请求参数对象
      */
-    private ClientAdaCoreProp clientAdaCoreProp;
+    protected ClientAdaCoreProp clientAdaCoreProp;
     /**
      * 自定义头部处理器
      */
-    private Class<? extends ClientHeaderAdapter> clientHeaderAdapter;
+    protected Class<? extends ClientHeaderAdapter> clientHeaderAdapter;
     /**
      * 请求响应Class
      */
-    private Class<?> responseCls;
+    protected Class<?> responseCls;
     /**
      * 响应工厂
      */
-    private Class<? extends IClientAdaResponseFactory<?>> responseFactory;
-
-    @Autowired
-    private DefaultClientInterfaceControllerAda defaultClientInterfaceControllerAda;
+    protected Class<? extends IClientAdaResponseFactory<?>> responseFactory;
 
     /**
      * 处理方法注解
      */
-    public Object process(ProceedingJoinPoint currentPoint, ClientAdaComponent clientAdaComponent) throws Throwable {
+    protected Object process(ProceedingJoinPoint currentPoint, ClientAdaComponent clientAdaComponent) throws Throwable {
         this.clientAdaCoreProp = new ClientAdaCoreProp().setClientId(clientAdaComponent.clientId()).setClientName(clientAdaComponent.clientName())
                 .setClientPort(clientAdaComponent.clientPort()).setClientUri(clientAdaComponent.clientUrl());
         this.clientHeaderAdapter = clientAdaComponent.clientHeaderAdapter();
@@ -59,7 +55,7 @@ public final class AnnotationPointCutExecutor {
     /**
      * 处理接口注解
      */
-    public Object process(ProceedingJoinPoint currentPoint, ClientAdaInterface clientAdaInterface) throws Throwable {
+    protected Object process(ProceedingJoinPoint currentPoint, ClientAdaInterface clientAdaInterface) throws Throwable {
         if (StringUtils.isEmpty(clientAdaInterface.interfaceId()) && StringUtils.isEmpty(clientAdaInterface.interfaceName())) {
             throw new ClientAdaExecuteException("interfaceId和interfaceName不能同时为空");
         }
@@ -70,14 +66,5 @@ public final class AnnotationPointCutExecutor {
         this.responseCls = clientAdaInterface.responseCls();
         this.clientAdaCoreProp.setClientInterface(new ClientInterfaceProp(clientAdaInterface.interfaceName(), clientAdaInterface.interfaceId(), clientAdaInterface.interfaceUri()));
         return currentPoint.proceed();
-    }
-
-    /**
-     * 获取请求执行器构建对象
-     *
-     * @return ExecutorBuilder
-     */
-    public ExecutorBuilder getExecutorBuilder() {
-        return new ExecutorBuilder(this.clientAdaCoreProp, this.clientHeaderAdapter, this.responseCls, this.responseFactory, this.defaultClientInterfaceControllerAda);
     }
 }

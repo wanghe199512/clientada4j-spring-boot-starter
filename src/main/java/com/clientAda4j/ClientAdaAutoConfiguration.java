@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan("com.clientAda4j.*")
+@ComponentScan({"com.clientAda4j"})
 @EnableConfigurationProperties({ClientAdaProperties.class})
 @ConditionalOnProperty(prefix = "clientada4j", name = "enabled", havingValue = "true")
 public class ClientAdaAutoConfiguration {
