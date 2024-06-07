@@ -1,5 +1,6 @@
 package com.clientAda4j.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.fastjson2.JSON;
 import com.clientAda4j.DefaultClientAdaResponseFactory;
 import com.clientAda4j.IClientAdaResponseFactory;
@@ -77,7 +78,7 @@ public final class DefaultClientInterfaceControllerAda extends AbstractClientInt
         if (Objects.isNull(cls)) {
             throw new ClientAdaExecuteException("响应实体类型[cls] 不能为null");
         }
-        return this.request(clientAdaCoreProp, requestObj, new DefaultClientAdaResponseFactory<E>());
+        return new ClientResponseProp<E>(BeanUtil.toBean(JSON.parseObject(this.executeUri(clientAdaCoreProp, requestObj)), cls));
     }
 
     /**
