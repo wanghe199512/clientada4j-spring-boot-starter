@@ -1,6 +1,5 @@
 package com.clientAda4j.controller;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.fastjson2.JSON;
 import com.clientAda4j.ClientHeaderAdapter;
 import com.clientAda4j.DefaultClientAdaResponseFactory;
@@ -56,8 +55,7 @@ public final class DefaultClientInterfaceControllerAda extends AbstractClientInt
     @Override
     public ClientResponseProp<DefaultClientResponseProp> request(ClientAdaCoreProp clientAdaCoreProp, ImmutableMap<String, Object> params) {
         try {
-            ClientResponseProp<DefaultClientResponseProp> clientResponseProp = this.request(clientAdaCoreProp, new StringEntity(JSON.toJSONString(params)), new DefaultClientAdaResponseFactory<>());
-            this.logger.info("[ClientAda SDK] 请求响应详细信息 >>> {}", clientResponseProp.toString());
+            return this.request(clientAdaCoreProp, new StringEntity(JSON.toJSONString(params)), new DefaultClientAdaResponseFactory<>());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -75,7 +73,7 @@ public final class DefaultClientInterfaceControllerAda extends AbstractClientInt
     @Override
     public <E> ClientResponseProp<E> request(ClientAdaCoreProp clientAdaCoreProp, HttpEntity requestObj, Class<E> cls) {
         if (Objects.isNull(cls)) {
-            throw new ClientAdaExecuteException("[ClientAda SDK] 响应实体类型[cls] 不能为null");
+            throw new ClientAdaExecuteException("响应实体类型[cls] 不能为null");
         }
         return this.request(clientAdaCoreProp, requestObj, new DefaultClientAdaResponseFactory<E>());
     }
@@ -104,7 +102,7 @@ public final class DefaultClientInterfaceControllerAda extends AbstractClientInt
     @Override
     public DefaultClientInterfaceControllerAda addClientHeaders(ClientHeaderProp clientHeaderProp) {
         if (Objects.isNull(clientHeaderProp) || clientHeaderProp.getHeaders().length == 0) {
-            throw new ClientAdaExecuteException("[ClientAda SDK] >>> header对象不能为null, 请检查....");
+            throw new ClientAdaExecuteException("header对象不能为null, 请检查....");
         }
         this.headers = clientHeaderProp.getHeaders();
         return this;

@@ -56,7 +56,7 @@ public abstract class AbstractClientInterfaceAda implements IClientInterface, Se
         HttpPost httpPost = new HttpPost(String.format("%s/%s", domainUrl, clientInterfaceProp.getInterfaceUri()));
         httpPost.setConfig(RequestConfig.custom().setSocketTimeout(this.socketTime).setConnectTimeout(this.connectTime).build());
         httpPost.setHeaders(this.headers);
-        logger.info("[ClientAda SDK] >>> url:{} , header:{}", domainUrl, httpPost.getAllHeaders());
+        logger.info("[ClientAda SDK] Preparing: >> 请求地址: {} , 请求头: {}", domainUrl, httpPost.getAllHeaders());
         return httpPost;
     }
 

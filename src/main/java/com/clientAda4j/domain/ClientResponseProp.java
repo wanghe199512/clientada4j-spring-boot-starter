@@ -27,9 +27,7 @@ public class ClientResponseProp<T> {
 
     @Override
     public String toString() {
-        return "{" +
-                "response=" + response +
-                '}';
+        return "[ClientAda SDK] Preparing: >> 请求响应 " + response;
     }
 
 }
