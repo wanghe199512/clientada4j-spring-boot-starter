@@ -66,7 +66,7 @@ public class TYCClientHeaderAdapter implements IClientHeaderAdapter {
 ```
 直接实现IClientHeaderAdapter，并且重写adapter方法即可，但有时请求时需要携带动态Token(#比如先登录获取Token然后再请求其他接口#)怎么办呢？<br />
 
-**方式一**: 如果你的Token变化不频繁，理论上讲让ClientAdaWeatherService实现ClientAdaWeatherService也是可以的<br />
+**方式一**: 如果你的Token变化不频繁，理论上讲让IClientHeaderAdapter实现IClientHeaderAdapter也是可以的<br />
 **方式二**: 如果你的Token变化频繁，甚至每次请求都需要新Token,这个时候就需要**ClientAdaClaimExecutor**来帮忙啦，这个会在下面的章节中提到
 
 ###### 二、@ClientAdaInterface注解说明:<br />
