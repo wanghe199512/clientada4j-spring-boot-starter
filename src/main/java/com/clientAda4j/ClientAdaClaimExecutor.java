@@ -72,7 +72,7 @@ public class ClientAdaClaimExecutor implements Executor {
      * @return ClientResponseProp<LinkedHashMap < String, Object>>
      */
     @Override
-    public ClientResponseProp<LinkedHashMap<String, Object>> executeBasicUrl(String domainUrl, ImmutableMap<String, Object> args) {
+    public ClientResponseProp<LinkedHashMap<String, Object>> execute(String domainUrl, ImmutableMap<String, Object> args) {
         ExecutorBuilder executorObj = this.executor.getExecutorBuilder();
         try {
             return executorObj.getDefaultClientInterfaceControllerAda()
@@ -92,8 +92,8 @@ public class ClientAdaClaimExecutor implements Executor {
      * @return ClientResponseProp<LinkedHashMap < String, Object>>
      */
     @Override
-    public <E> ClientResponseProp<E> executeBasicUrlResponseCls(String domainUrl, ImmutableMap<String, Object> args, Class<E> responseCls) {
-        return new ClientResponseProp<E>(BeanUtil.toBean(this.executeBasicUrl(domainUrl, args), responseCls));
+    public <E> ClientResponseProp<E> execute(String domainUrl, ImmutableMap<String, Object> args, Class<E> responseCls) {
+        return new ClientResponseProp<E>(BeanUtil.toBean(this.execute(domainUrl, args), responseCls));
     }
 
 }

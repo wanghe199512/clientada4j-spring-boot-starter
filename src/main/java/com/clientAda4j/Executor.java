@@ -29,7 +29,7 @@ public interface Executor {
      * @param args         请求参数
      * @return ClientResponseProp<LinkedHashMap < String, Object>>
      */
-    ClientResponseProp<LinkedHashMap<String, Object>> executeBasicUrl(String domainUrl, ImmutableMap<String, Object> args);
+    ClientResponseProp<LinkedHashMap<String, Object>> execute(String domainUrl, ImmutableMap<String, Object> args);
 
     /**
      * 自定义执行可直接请求的API
@@ -39,5 +39,5 @@ public interface Executor {
      * @param responseCls  指定返回实体
      * @return ClientResponseProp<LinkedHashMap < String, Object>>
      */
-    <E> ClientResponseProp<E> executeBasicUrlResponseCls(String domainUrl, ImmutableMap<String, Object> args, Class<E> responseCls);
+    <E> ClientResponseProp<E> execute(String domainUrl, ImmutableMap<String, Object> args, Class<E> responseCls);
 }
