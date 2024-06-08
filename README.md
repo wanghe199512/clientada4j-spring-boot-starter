@@ -40,7 +40,7 @@ public class ClientAdaWeatherService {
 ```
 在上述代码中，我们定义了一个访问天气的API接口，并且注入ClientAdaClaimExecutor执行器执行相应的请求，下面我会详细说明每一项的具体定义<br />
 
-##### 一、@ClientAdaComponent注解说明:<br />
+###### 一、@ClientAdaComponent注解说明:<br />
 ```
 clientUrl 基础客户端URL(通常我们认为一个系统的基础url及端口不会发生改变，使用该注解，该类中所有请求都会在地址之前加上url访问))<br />
 clientName: 描述该类中连接的客户系统名称<br />
@@ -69,7 +69,7 @@ public class TYCClientHeaderAdapter implements IClientHeaderAdapter {
 **方式一**: 如果你的Token变化不频繁，理论上讲让ClientAdaWeatherService实现ClientAdaWeatherService也是可以的<br />
 **方式二**: 如果你的Token变化频繁，甚至每次请求都需要新Token,这个时候就需要**ClientAdaClaimExecutor**来帮忙啦，这个会在下面的章节中提到
 
-##### 二、@ClientAdaInterface注解说明:<br />
+###### 二、@ClientAdaInterface注解说明:<br />
 ```
 interfaceName: 描述该类中连接的客户接口名称<br />
 interfaceUri: 接口Url <br />
@@ -93,7 +93,7 @@ public class ClientAdaResponseFactory implements IClientAdaResponseFactory<Defau
 
 response是接口返回的结果，在process()处理完业务逻辑后,亦可使用泛型返回结果,此时接口返回为ClientResponseProp<?> 需要做强制类型转换。
 
-##### 三、ClientAdaClaimExecutor说明:<br />
+###### 三、ClientAdaClaimExecutor说明:<br />
 
 ClientAdaClaimExecutor作为唯一的执行器，定义了四个方法
 ```
@@ -109,14 +109,11 @@ ClientResponseProp<E> execute(String domainUrl, ImmutableMap<String, Object> arg
 3. 在实际需求中，比如统一身份认证时，第一步请求获取签名或Token(视实际业务而定),第二步再认证,此时可以用execute方法，显而易见，一个带responseCls一个不带，具体的用法各位自行斟酌
 
 
-#####说明: 不同构造器的使用参照源码文档说明
+####联系作者
 
-
-#####联系作者
-
-有发送问题请发送至邮箱：1280381827@qq.com
-
---------------------
+有发送问题请发送至邮箱：1280381827@qq.com, 欢迎issues
 
 就不弄什么官网了，服务器还蛮贵的，主打一个省钱.......
+
+--------------------
 
