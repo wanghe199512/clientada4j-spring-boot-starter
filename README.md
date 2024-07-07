@@ -134,7 +134,7 @@ public class ProfileEnvironment implements ClientAdaEnvironment {
 有发送问题请发送至邮箱：1280381827@qq.com, 欢迎issues
 
 
-查看demo项目: https://gitee.com/wanghe199512/spring-boot-starter-client-ada4j-demo 
+**查看demo项目: https://gitee.com/wanghe199512/spring-boot-starter-client-ada4j-demo** 
 
 --------------------
 
