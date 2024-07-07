@@ -2,7 +2,7 @@ package com.clientAda4j;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
-import com.clientAda4j.domain.DefaultClientResponseProp;
+import com.clientAda4j.process.IClientAdaResponseFactory;
 
 /**
  * 返回结果处理器

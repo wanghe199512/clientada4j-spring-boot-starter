@@ -1,7 +1,7 @@
 package com.clientAda4j.anno;
 
-import com.clientAda4j.IClientAdaResponseFactory;
-import com.clientAda4j.LinkedHashMapClientAdaResponseFactory;
+import com.clientAda4j.process.IClientAdaResponseFactory;
+import com.clientAda4j.process.LinkedHashMapClientAdaResponseFactory;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.lang.annotation.*;

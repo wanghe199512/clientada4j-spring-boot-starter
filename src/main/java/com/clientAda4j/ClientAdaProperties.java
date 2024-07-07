@@ -1,4 +1,4 @@
-package com.clientAda4j.component;
+package com.clientAda4j;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

@@ -1,7 +1,7 @@
 package com.clientAda4j.controller;
 
-import com.clientAda4j.IClientAdaResponseFactory;
-import com.clientAda4j.IClientHeaderAdapter;
+import com.clientAda4j.process.IClientAdaResponseFactory;
+import com.clientAda4j.process.IClientHeaderAdapter;
 import com.clientAda4j.domain.ClientAdaCoreProp;
 import com.clientAda4j.domain.ClientHeaderProp;
 import com.clientAda4j.domain.ClientResponseProp;

@@ -1,8 +1,7 @@
-package com.clientAda4j;
+package com.clientAda4j.process;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
-import com.clientAda4j.domain.DefaultClientResponseProp;
 
 import java.util.LinkedHashMap;
 

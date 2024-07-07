@@ -1,7 +1,7 @@
 package com.clientAda4j.anno;
 
-import com.clientAda4j.ClientHeaderAdapter;
-import com.clientAda4j.IClientHeaderAdapter;
+import com.clientAda4j.process.ClientHeaderAdapter;
+import com.clientAda4j.process.IClientHeaderAdapter;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.*;

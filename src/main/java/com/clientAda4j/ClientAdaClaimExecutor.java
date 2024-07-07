@@ -3,7 +3,6 @@ package com.clientAda4j;
 import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.fastjson2.JSON;
 import com.clientAda4j.component.AnnotationPointCut;
-import com.clientAda4j.component.ExecutorBuilder;
 import com.clientAda4j.domain.ClientResponseProp;
 import com.clientAda4j.exeption.ClientAdaExecuteException;
 import com.google.common.collect.ImmutableMap;
@@ -32,7 +31,7 @@ public class ClientAdaClaimExecutor implements Executor {
      */
     @Override
     public ClientResponseProp<?> executeResponseFactory(Object args) {
-        ExecutorBuilder executorObj = this.executor.getExecutorBuilder();
+        AnnotationPointCut.ExecutorBuilder executorObj =  this.executor.getExecutorObjBuilder();
         try {
             if (Objects.isNull(executorObj.getResponseFactory())) {
                 throw new ClientAdaExecuteException("[ClientAda SDK] 基于响应工厂的执行函数，必须配置在注解@ClientAdaInterface中配置responseFactory");
@@ -54,7 +53,7 @@ public class ClientAdaClaimExecutor implements Executor {
 
     @Override
     public <E> ClientResponseProp<E> executeResponseCls(Object args, Class<E> responseCls) {
-        ExecutorBuilder executorObj = this.executor.getExecutorBuilder();
+        AnnotationPointCut.ExecutorBuilder executorObj =  this.executor.getExecutorObjBuilder();
         try {
             return executorObj.getDefaultClientInterfaceControllerAda()
                     .addClientHeadersAdapter(executorObj.getClientHeaderAdapter().newInstance()).request(executorObj.getClientAdaCoreProp(), new StringEntity(JSON.toJSONString(args)), responseCls);
@@ -67,13 +66,13 @@ public class ClientAdaClaimExecutor implements Executor {
     /**
      * 自定义执行可直接请求的API
      *
-     * @param domainUrl    主请求地址
-     * @param args         请求参数
+     * @param domainUrl 主请求地址
+     * @param args      请求参数
      * @return ClientResponseProp<LinkedHashMap < String, Object>>
      */
     @Override
     public ClientResponseProp<LinkedHashMap<String, Object>> execute(String domainUrl, ImmutableMap<String, Object> args) {
-        ExecutorBuilder executorObj = this.executor.getExecutorBuilder();
+        AnnotationPointCut.ExecutorBuilder executorObj =  this.executor.getExecutorObjBuilder();
         try {
             return executorObj.getDefaultClientInterfaceControllerAda()
                     .addClientHeadersAdapter(executorObj.getClientHeaderAdapter().newInstance()).request(domainUrl, "", args);
@@ -86,9 +85,9 @@ public class ClientAdaClaimExecutor implements Executor {
     /**
      * 自定义执行可直接请求的API
      *
-     * @param domainUrl    主请求地址
-     * @param args         请求参数
-     * @param responseCls  指定返回实体
+     * @param domainUrl   主请求地址
+     * @param args        请求参数
+     * @param responseCls 指定返回实体
      * @return ClientResponseProp<LinkedHashMap < String, Object>>
      */
     @Override

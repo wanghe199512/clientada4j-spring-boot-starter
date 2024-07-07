@@ -1,10 +1,9 @@
 package com.clientAda4j.component;
 
-import com.clientAda4j.ClientHeaderAdapter;
-import com.clientAda4j.IClientAdaResponseFactory;
-import com.clientAda4j.IClientHeaderAdapter;
 import com.clientAda4j.anno.ClientAdaComponent;
 import com.clientAda4j.anno.ClientAdaInterface;
+import com.clientAda4j.process.IClientAdaResponseFactory;
+import com.clientAda4j.process.IClientHeaderAdapter;
 import com.clientAda4j.domain.ClientAdaCoreProp;
 import com.clientAda4j.domain.ClientInterfaceProp;
 import com.clientAda4j.exeption.ClientAdaExecuteException;

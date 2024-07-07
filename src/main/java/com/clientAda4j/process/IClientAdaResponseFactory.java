@@ -1,4 +1,4 @@
-package com.clientAda4j;
+package com.clientAda4j.process;
 
 public interface IClientAdaResponseFactory<T> {
     /**
