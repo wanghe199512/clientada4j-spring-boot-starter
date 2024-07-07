@@ -17,7 +17,7 @@ import java.util.Objects;
  *
  * @author wanghe
  */
-public class AnnotationPointCutExecutor {
+public abstract class AnnotationPointCutExecutor {
     /**
      * 核心请求参数对象
      */
@@ -32,9 +32,9 @@ public class AnnotationPointCutExecutor {
     protected Class<? extends IClientAdaResponseFactory<?>> responseFactory;
 
     /**
-     * 处理方法注解
+     * 处理类注解
      */
-    protected Object process(ProceedingJoinPoint currentPoint, ClientAdaComponent clientAdaComponent, ClientAdaEnvironment clientAdaEnvironment) throws Throwable {
+    protected Object processMethod(ProceedingJoinPoint currentPoint, ClientAdaComponent clientAdaComponent, ClientAdaEnvironment clientAdaEnvironment) throws Throwable {
         this.clientAdaCoreProp = new ClientAdaCoreProp().setClientId(clientAdaComponent.clientId()).setClientName(clientAdaComponent.clientName())
                 .setClientPort(clientAdaComponent.clientPort()).setClientUri(clientAdaComponent.clientUrl());
         clientAdaEnvironment.env(this.clientAdaCoreProp);
@@ -48,7 +48,7 @@ public class AnnotationPointCutExecutor {
     /**
      * 处理接口注解
      */
-    protected Object process(ProceedingJoinPoint currentPoint, ClientAdaInterface clientAdaInterface) throws Throwable {
+    protected Object processInterface(ProceedingJoinPoint currentPoint, ClientAdaInterface clientAdaInterface) throws Throwable {
         if (StringUtils.isEmpty(clientAdaInterface.interfaceId()) && StringUtils.isEmpty(clientAdaInterface.interfaceName())) {
             throw new ClientAdaExecuteException("interfaceId和interfaceName不能同时为空");
         }

@@ -24,13 +24,13 @@ public final class AnnotationPointCut extends AnnotationPointCutExecutor {
     // 处理类上面的注解ClientAdaComponent
     @Around(value = "@within(clientAdaComponent)")
     private Object clientAdaComponentPoint(ProceedingJoinPoint currentPoint, ClientAdaComponent clientAdaComponent) throws Throwable {
-        return this.process(currentPoint, clientAdaComponent,clientAdaEnvironment);
+        return this.processMethod(currentPoint, clientAdaComponent,clientAdaEnvironment);
     }
 
     //处理方法上面的注解ClientAdaInterface
     @Around(value = "@annotation(clientAdaInterface)")
     private Object clientAdaInterfacePoint(ProceedingJoinPoint currentPoint, ClientAdaInterface clientAdaInterface) throws Throwable {
-        return this.process(currentPoint, clientAdaInterface);
+        return this.processInterface(currentPoint, clientAdaInterface);
     }
 
     /**
