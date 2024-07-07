@@ -129,8 +129,6 @@ public class ProfileEnvironment implements ClientAdaEnvironment {
 ```
 @Value("${weather.url}") 是每个环境中不同定义的链接，在env方法中，你可以对@ClientAdaComponent中定义的所有参数进行获取和修改
 
-
-
 #### 联系作者
 
 有发送问题请发送至邮箱：1280381827@qq.com, 欢迎issues
