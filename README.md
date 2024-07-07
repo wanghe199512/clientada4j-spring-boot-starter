@@ -110,9 +110,10 @@ ClientResponseProp<E> execute(String domainUrl, ImmutableMap<String, Object> arg
 
 ###### 四、springboot多环境支持:<br />
 
-有的小伙伴会问，springboot人家明明支持dev，prod多个环境，请求url总不能写死啊。答案是yes
-系统中也添加了用于支持的环境的 ClientAdaEnvironment.class (此类是一个接口)
+有的小伙伴会问，springboot人家明明支持dev，prod多个环境，请求url总不能写死啊。<br />
+答案是yes <br />
 
+系统中也添加了用于支持的环境的 ClientAdaEnvironment.class (此类是一个接口)<br />
 此时@ClientAdaComponent(clientUrl = "https://sapi.k780.com/") 中的clientUrl可以不写，如下示例:
 ```
 @Component
