@@ -1,12 +1,12 @@
 package com.clientAda4j.component;
 
-import com.clientAda4j.process.ClientHeaderAdapter;
 import com.clientAda4j.anno.ClientAdaComponent;
 import com.clientAda4j.anno.ClientAdaInterface;
 import com.clientAda4j.controller.DefaultClientInterfaceControllerAda;
+import com.clientAda4j.domain.ClientAdaCoreProp;
+import com.clientAda4j.process.ClientHeaderAdapter;
 import com.clientAda4j.process.IClientAdaResponseFactory;
 import com.clientAda4j.process.IClientHeaderAdapter;
-import com.clientAda4j.domain.ClientAdaCoreProp;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -18,11 +18,13 @@ import org.springframework.stereotype.Component;
 public final class AnnotationPointCut extends AnnotationPointCutExecutor {
     @Autowired
     private DefaultClientInterfaceControllerAda defaultClientInterfaceControllerAda;
+    @Autowired
+    private ClientAdaEnvironment clientAdaEnvironment;
 
     // 处理类上面的注解ClientAdaComponent
     @Around(value = "@within(clientAdaComponent)")
     private Object clientAdaComponentPoint(ProceedingJoinPoint currentPoint, ClientAdaComponent clientAdaComponent) throws Throwable {
-        return this.process(currentPoint, clientAdaComponent);
+        return this.process(currentPoint, clientAdaComponent,clientAdaEnvironment);
     }
 
     //处理方法上面的注解ClientAdaInterface

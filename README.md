@@ -108,12 +108,31 @@ ClientResponseProp<E> execute(String domainUrl, ImmutableMap<String, Object> arg
 2. 如果需要返回指定实体类型，使用executeResponseCls请求，并指定responseCls
 3. 在实际需求中，比如统一身份认证时，第一步请求获取签名或Token(视实际业务而定),第二步再认证,此时可以用execute方法，显而易见，一个带responseCls一个不带，具体的用法各位自行斟酌
 
+###### 四、springboot多环境支持:<br />
+
+有的小伙伴会问，springboot人家明明支持dev，prod多个环境，请求url总不能写死啊。答案是yes
+系统中也添加了用于支持的环境的 ClientAdaEnvironment.class (此类是一个接口)
+
+此时@ClientAdaComponent(clientUrl = "https://sapi.k780.com/") 中的clientUrl可以不写，如下示例:
+```
+@Component
+public class ProfileEnvironment implements ClientAdaEnvironment {
+    @Value("${weather.url}")
+    private String weatherUrl;
+
+    @Override
+    public void env(ClientAdaCoreProp envProp) {
+        envProp.setClientUri(weatherUrl);
+    }
+}
+```
+@Value("${weather.url}") 是每个环境中不同定义的链接，在env方法中，你可以对@ClientAdaComponent中定义的所有参数进行获取和修改
+
+
 
 ####联系作者
 
 有发送问题请发送至邮箱：1280381827@qq.com, 欢迎issues
-
-就不弄什么官网了，服务器还蛮贵的，主打一个省钱.......
 
 --------------------
 

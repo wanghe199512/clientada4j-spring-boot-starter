@@ -34,9 +34,12 @@ public class AnnotationPointCutExecutor {
     /**
      * 处理方法注解
      */
-    protected Object process(ProceedingJoinPoint currentPoint, ClientAdaComponent clientAdaComponent) throws Throwable {
+    protected Object process(ProceedingJoinPoint currentPoint, ClientAdaComponent clientAdaComponent, ClientAdaEnvironment clientAdaEnvironment) throws Throwable {
         this.clientAdaCoreProp = new ClientAdaCoreProp().setClientId(clientAdaComponent.clientId()).setClientName(clientAdaComponent.clientName())
                 .setClientPort(clientAdaComponent.clientPort()).setClientUri(clientAdaComponent.clientUrl());
+        if (Objects.nonNull(clientAdaEnvironment)) {
+            clientAdaEnvironment.env(this.clientAdaCoreProp);
+        }
         this.clientHeaderAdapter = clientAdaComponent.clientHeaderAdapter();
         return currentPoint.proceed();
     }

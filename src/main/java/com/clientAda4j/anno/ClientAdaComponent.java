@@ -14,7 +14,7 @@ public @interface ClientAdaComponent {
     /**
      * 请求服务url
      */
-    String clientUrl();
+    String clientUrl() default "";
 
     /**
      * 请求服务ID
