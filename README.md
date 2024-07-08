@@ -7,6 +7,16 @@ clientada4j-spring-boot-starter: 一个重新定义系统接口对接的新实�
 #### 软件架构
 无
 
+#### 快速入门
+
+```
+<dependency>
+    <groupId>cn.clientada4j</groupId>
+    <artifactId>clientada4j-spring-boot-starter</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
 #### 配置项
 ```
 clientada4j.enabled = true # 开启或关闭
