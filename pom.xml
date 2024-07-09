@@ -7,14 +7,14 @@
     <version>1.0.0</version>
     <packaging>jar</packaging>
     <name>clientada4j-spring-boot-starter</name>
-    <description>三方客户端系统连接与URL请求调用库</description>
+    <description>三方客户端系统URL调用库SDK</description>
 
     <developers>
         <developer>
             <name>wanghe</name>
             <email>1280381827@qq.com</email>
-            <organization>fastword.com.cn</organization>
-            <organizationUrl>http://www.fastword.cn</organizationUrl>
+            <organization>clientada4j.cn</organization>
+            <organizationUrl>http://www.clientada4j.cn</organizationUrl>
         </developer>
     </developers>
 
