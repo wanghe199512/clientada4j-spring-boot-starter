@@ -122,10 +122,10 @@
         </license>
     </licenses>
     <scm>
-        <connection>https://gitee.com/wanghe199512/clientada4j-spring-boot-starter</connection>
+        <connection>scm:git:ssh://git@gitee.com:wanghe199512/clientada4j-spring-boot-starter</connection>
         <developerConnection>scm:git:ssh://git@gitee.com:wanghe199512/clientada4j-spring-boot-starter
         </developerConnection>
-        <url>scm:git:ssh://git@gitee.com:wanghe199512/clientada4j-spring-boot-starter</url>
+        <url>https://gitee.com/wanghe199512/clientada4j-spring-boot-starter</url>
     </scm>
     <build>
         <plugins>
