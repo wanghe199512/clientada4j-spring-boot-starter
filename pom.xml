@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cn.clientada4j</groupId>
@@ -7,8 +8,7 @@
     <version>1.0.0</version>
     <packaging>jar</packaging>
     <name>clientada4j-spring-boot-starter</name>
-    <description>三方客户端系统URL调用库SDK</description>
-
+    <description>三方客户端URL调用库SDK</description>
     <developers>
         <developer>
             <name>wanghe</name>
@@ -17,14 +17,12 @@
             <organizationUrl>http://www.clientada4j.cn</organizationUrl>
         </developer>
     </developers>
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.6.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -36,7 +34,6 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-
     <!-- 依赖声明 -->
     <dependencies>
         <dependency>
@@ -86,14 +83,13 @@
             <artifactId>fastjson2</artifactId>
             <version>${fastjson.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore -->
+
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
             <version>4.4.10</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
@@ -119,21 +115,18 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
-
     <scm>
         <connection>https://gitee.com/wanghe199512/clientada4j-spring-boot-starter</connection>
         <developerConnection>scm:git:ssh://git@gitee.com:wanghe199512/clientada4j-spring-boot-starter
         </developerConnection>
         <url>scm:git:ssh://git@gitee.com:wanghe199512/clientada4j-spring-boot-starter</url>
     </scm>
-
     <build>
         <plugins>
             <plugin>
@@ -175,7 +168,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- Javadoc -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
@@ -189,20 +181,22 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <passphraseServerId>central</passphraseServerId>
+                    <keyname>${gpg.keyname}</keyname>
+                    <passphraseServerId>ossrh</passphraseServerId>
                     <gpgArguments>
                         <arg>--pinentry-mode</arg>
                         <arg>loopback</arg>
                     </gpgArguments>
                 </configuration>
             </plugin>
+            <!-- central -->
             <plugin>
                 <groupId>org.sonatype.central</groupId>
                 <artifactId>central-publishing-maven-plugin</artifactId>
                 <version>0.4.0</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <publishingServerId>central</publishingServerId>
+                    <publishingServerId>ossrh</publishingServerId>
                     <tokenAuth>true</tokenAuth>
                 </configuration>
             </plugin>
@@ -213,6 +207,9 @@
             <id>central</id>
             <url>https://central.sonatype.com/</url>
         </snapshotRepository>
+        <repository>
+            <id>central</id>
+            <url>https://central.sonatype.com/</url>
+        </repository>
     </distributionManagement>
-
 </project>
