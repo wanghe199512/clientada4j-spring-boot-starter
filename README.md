@@ -13,7 +13,7 @@ clientada4j-spring-boot-starter: 一个重新定义系统接口对接的新实�
 <dependency>
     <groupId>cn.clientada4j</groupId>
     <artifactId>clientada4j-spring-boot-starter</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
