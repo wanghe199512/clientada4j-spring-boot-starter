@@ -21,15 +21,15 @@ public abstract class AnnotationPointCutExecutor {
     /**
      * 核心请求参数对象
      */
-    private ClientAdaCoreProp clientAdaCoreProp;
+    protected ClientAdaCoreProp clientAdaCoreProp;
     /**
      * 自定义头部处理器
      */
-    private Class<? extends IClientHeaderAdapter> clientHeaderAdapter;
+    protected Class<? extends IClientHeaderAdapter> clientHeaderAdapter;
     /**
      * 响应工厂
      */
-    private Class<? extends IClientAdaResponseFactory<?>> responseFactory;
+    protected Class<? extends IClientAdaResponseFactory<?>> responseFactory;
 
     /**
      * 处理类注解
