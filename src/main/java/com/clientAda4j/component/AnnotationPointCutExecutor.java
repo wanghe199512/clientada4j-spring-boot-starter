@@ -34,10 +34,9 @@ public abstract class AnnotationPointCutExecutor {
     /**
      * 处理类注解
      */
-    protected Object processMethod(ProceedingJoinPoint currentPoint, ClientAdaComponent clientAdaComponent, ClientAdaEnvironment clientAdaEnvironment) throws Throwable {
+    protected Object processMethod(ProceedingJoinPoint currentPoint, ClientAdaComponent clientAdaComponent) throws Throwable {
         this.clientAdaCoreProp = new ClientAdaCoreProp().setClientId(clientAdaComponent.clientId()).setClientName(clientAdaComponent.clientName())
                 .setClientPort(clientAdaComponent.clientPort()).setClientUri(clientAdaComponent.clientUrl());
-        clientAdaEnvironment.env(this.clientAdaCoreProp);
         if (StringUtils.isEmpty(this.clientAdaCoreProp.getClientUri())) {
             throw new ClientAdaExecuteException("没有获取到有效的[客户端URI],进程终止..");
         }

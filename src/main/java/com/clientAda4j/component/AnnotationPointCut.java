@@ -13,21 +13,28 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * 注解切面
+ *
+ * @author wanghe
+ */
 @Aspect
 @Component
 public final class AnnotationPointCut extends AnnotationPointCutExecutor {
     @Autowired
     private DefaultClientInterfaceControllerAda defaultClientInterfaceControllerAda;
-    @Autowired
-    private ClientAdaEnvironment clientAdaEnvironment;
 
-    // 处理类上面的注解ClientAdaComponent
+    /**
+     * 处理类上面的注解ClientAdaComponent
+     */
     @Around(value = "@within(clientAdaComponent)")
     private Object clientAdaComponentPoint(ProceedingJoinPoint currentPoint, ClientAdaComponent clientAdaComponent) throws Throwable {
-        return this.processMethod(currentPoint, clientAdaComponent,clientAdaEnvironment);
+        return this.processMethod(currentPoint, clientAdaComponent);
     }
 
-    //处理方法上面的注解ClientAdaInterface
+    /**
+     * 处理方法上面的注解ClientAdaInterface
+     */
     @Around(value = "@annotation(clientAdaInterface)")
     private Object clientAdaInterfacePoint(ProceedingJoinPoint currentPoint, ClientAdaInterface clientAdaInterface) throws Throwable {
         return this.processInterface(currentPoint, clientAdaInterface);
